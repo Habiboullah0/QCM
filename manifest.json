@@ -1,0 +1,19 @@
+{
+  "name": "QCM",
+  "short_name": "QCM",
+  "description": "Plateforme interactive de quiz médicaux pour évaluer vos connaissances dans différents domaines médicaux",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#F9FAFB",
+  "theme_color": "#4F46E5",
+  "orientation": "portrait-primary",
+  "dir": "ltr",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "img/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}

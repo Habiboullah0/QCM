@@ -1,0 +1,722 @@
+[
+  {
+    "question": "Parmi les régions suivantes du tube digestif indiquer celles contenant des fibres musculaires striées",
+    "options": [
+      "le sphincter œsophagien supérieur",
+      "le tiers supérieur de l'œsophage",
+      "le sphincter œsophagien inférieur",
+      "le sphincter pylorique",
+      "le sphincter anal interne"
+    ],
+    "correct": [0, 1],
+    "explanation": "Les fibres musculaires striées se trouvent dans le sphincter œsophagien supérieur et le tiers supérieur de l'œsophage."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant aux cellules interstitielles de Cajal indiquer celles qui sont correctes",
+    "options": [
+      "ce sont des cellules nerveuses spécialisées",
+      "elles sont responsables de l'automatisme du muscle lisse digestif",
+      "elles sont localisées au niveau de la sous-muqueuse",
+      "elles sont connectées aux cellules musculaires lisses par des jonctions serrées",
+      "elles se regroupent dans certaines zones formant des pacemakers"
+    ],
+    "correct": [1, 3, 4],
+    "explanation": "Les cellules interstitielles de Cajal sont responsables de l'automatisme du muscle lisse digestif, sont connectées aux cellules musculaires lisses par des jonctions serrées et se regroupent dans certaines zones formant des pacemakers."
+  },
+  {
+    "question": "Parmi les éléments suivants de la salive indiquer ceux dont la concentration varie avec le débit de sécrétion",
+    "options": [
+      "lysozymes",
+      "mucine",
+      "Na+",
+      "K+",
+      "HCO3-"
+    ],
+    "correct": [2, 4],
+    "explanation": "La concentration de Na+ diminue et la concentration de HCO3- augmente avec le débit de sécrétion salivaire."
+  },
+  {
+    "question": "Parmi les stimuli suivants indiquer ceux déclenchant un réflexe de salivation absolu (inné)",
+    "options": [
+      "contact des aliments avec les glandes salivaires",
+      "distension de l'œsophage",
+      "vue des aliments",
+      "odeur des aliments",
+      "goût des aliments"
+    ],
+    "correct": [0, 4],
+    "explanation": "Le contact des aliments avec les glandes salivaires et le goût des aliments déclenchent un réflexe de salivation absolu (inné)."
+  },
+  {
+    "question": "Parmi les événements suivants indiquer ceux se produisant durant la phase pharyngée de la déglutition",
+    "options": [
+      "la contraction de la langue",
+      "l'ouverture de la valve palatoglosse",
+      "l'arrivée du bol alimentaire dans le pharynx",
+      "l'arrêt de la respiration",
+      "la fermeture du naso-pharynx"
+    ],
+    "correct": [2, 3, 4],
+    "explanation": "Durant la phase pharyngée de la déglutition, le bol alimentaire arrive dans le pharynx, la respiration s'arrête et le naso-pharynx se ferme."
+  },
+  {
+    "question": "Dans le contrôle du sphincter œsophagien supérieur",
+    "options": [
+      "la fermeture est assurée par la contraction tonique de muscles striés",
+      "les muscles mis en jeu dans la fermeture sont commandés par des fibres du nerf glossopharyngien",
+      "des forces passives (compression de la lumière œsophagienne contre le cartilage) contribuent à la fermeture",
+      "l'ouverture est déterminée par l'inhibition centrale des neurones somatiques",
+      "l'ouverture est complétée passivement par la pression négative intrathoracique"
+    ],
+    "correct": [0, 2, 3],
+    "explanation": "La fermeture du sphincter œsophagien supérieur est assurée par la contraction tonique de muscles striés, des forces passives contribuent à la fermeture et l'ouverture est déterminée par l'inhibition centrale des neurones somatiques."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant à la sécrétion gastrique indiquer celles qui sont correctes",
+    "options": [
+      "elle résulte du mélange de deux sécrétions primaires",
+      "le volume de la sécrétion alcaline primaire varie avec les stimulations",
+      "le volume de la sécrétion acide primaire est constant",
+      "les deux sécrétions primaires sont des solutions isotoniques",
+      "tous les ions bicarbonates sont tamponnés au mélange des deux sécrétions"
+    ],
+    "correct": [1, 3],
+    "explanation": "Le volume de la sécrétion alcaline primaire varie avec les stimulations et les deux sécrétions primaires sont des solutions isotoniques."
+  },
+  {
+    "question": "Parmi les facteurs suivants indiquer ceux qui inhibent la sécrétion acide gastrique",
+    "options": [
+      "l'acétylcholine",
+      "l'histamine",
+      "la gastrine",
+      "la sécrétine",
+      "l'acidité elle-même"
+    ],
+    "correct": [3, 4],
+    "explanation": "La sécrétine et l'acidité elle-même inhibent la sécrétion acide gastrique."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant aux mouvements d'eau et d'électrolytes à travers la paroi gastrique indiquer celles qui sont correctes",
+    "options": [
+      "les ions Cl- sont sécrétés par les cellules non pariétales selon un gradient électrochimique",
+      "les cellules pariétales sécrètent les ions Cl- selon un gradient de concentration",
+      "le débit de sécrétion des ions Na+ est constant",
+      "les ions bicarbonates sont réabsorbés par diffusion passive et transport actif",
+      "les ions K+ sont sécrétés par l'ensemble des cellules gastriques par voie intercellulaire et transcellulaire"
+    ],
+    "correct": [1, 4],
+    "explanation": "Les cellules pariétales sécrètent les ions Cl- selon un gradient de concentration et les ions K+ sont sécrétés par l'ensemble des cellules gastriques par voie intercellulaire et transcellulaire."
+  },
+  {
+    "question": "Parmi les facteurs suivants indiquer ceux favorisant l'ulcère gastro-duodénal",
+    "options": [
+      "l'Helicobacter pylori",
+      "le tabac",
+      "le régime alimentaire riche en fibres",
+      "le régime alimentaire riche en acides gras polyinsaturés",
+      "les anti-inflammatoires non stéroïdiens"
+    ],
+    "correct": [0, 1, 4],
+    "explanation": "L'Helicobacter pylori, le tabac et les anti-inflammatoires non stéroïdiens favorisent l'ulcère gastro-duodénal."
+  },
+  {
+    "question": "Le remplissage gastrique",
+    "options": [
+      "implique l'estomac proximal",
+      "il met en jeu la capacité de relaxation réceptrice du fundus et du corps de l'estomac",
+      "la relaxation est secondaire à un réflexe vagal",
+      "le réflexe vagal s'effectue par les neurones noradrénergiques du système nerveux myentérique",
+      "le médiateur responsable de la relaxation est l'acétylcholine"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "Le remplissage gastrique implique l'estomac proximal, met en jeu la capacité de relaxation réceptrice du fundus et du corps de l'estomac, et la relaxation est secondaire à un réflexe vagal."
+  },
+  {
+    "question": "Parmi les facteurs suivants indiquer ceux qui ralentissent la vidange gastrique",
+    "options": [
+      "les repas riches en glucides",
+      "les solutions isoosmotiques",
+      "la valeur énergétique élevée du repas",
+      "les acides gras à chaîne longue",
+      "les acides de petite taille dans le repas"
+    ],
+    "correct": [2, 3],
+    "explanation": "La valeur énergétique élevée du repas et les acides gras à chaîne longue ralentissent la vidange gastrique."
+  },
+  {
+    "question": "Dans la sécrétion pancréatique",
+    "options": [
+      "la concentration de Na+ augmente avec le débit",
+      "la concentration de K+ diminue avec le débit",
+      "la somme des concentrations de HCO3- et Cl- est fixe",
+      "la concentration de HCO3- est maximale en période post prandiale",
+      "la concentration de Cl- est maximale en période post prandiale"
+    ],
+    "correct": [2, 3],
+    "explanation": "La somme des concentrations de HCO3- et Cl- est fixe et la concentration de HCO3- est maximale en période post prandiale dans la sécrétion pancréatique."
+  },
+  {
+    "question": "Dans le contrôle de la sécrétion pancréatique",
+    "options": [
+      "la sécrétine est libérée sous l'effet de l'acidité dans le duodénum",
+      "la sécrétine stimule la sécrétion enzymatique",
+      "la cholécystokinine (CCK) est libérée sous l'effet de la présence de lipides et d'acides aminés dans le duodénum",
+      "la CCK stimule la sécrétion hydrobicarbonatée",
+      "le VIP (vaso-intestinal-peptide) stimule la sécrétion hydrobicarbonatée"
+    ],
+    "correct": [0, 2, 4],
+    "explanation": "La sécrétine est libérée sous l'effet de l'acidité dans le duodénum, la cholécystokinine (CCK) est libérée sous l'effet de la présence de lipides et d'acides aminés dans le duodénum, et le VIP (vaso-intestinal-peptide) stimule la sécrétion hydrobicarbonatée."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant à la bile indiquer celles qui sont correctes",
+    "options": [
+      "elle est formée par la vésicule biliaire",
+      "la captation active des acides biliaires est suivie d'un transfert d'eau",
+      "les flux d'eau sont suivis de transfert d'électrolytes et de substances organiques",
+      "la fraction dépendante des acides biliaires est d'environ 240 ml/j",
+      "elle est concentrée par le foie"
+    ],
+    "correct": [1, 2],
+    "explanation": "La captation active des acides biliaires est suivie d'un transfert d'eau et les flux d'eau sont suivis de transfert d'électrolytes et de substances organiques concernant la bile."
+  },
+  {
+    "question": "Parmi les facteurs suivants indiquer ceux qui favorisent la vidange biliaire",
+    "options": [
+      "la cholécystokinine (CCK)",
+      "la sécrétine",
+      "la gastrine",
+      "l'histamine",
+      "les fibres cholinergiques du nerf vague (parasympathique)"
+    ],
+    "correct": [0, 4],
+    "explanation": "La cholécystokinine (CCK) et les fibres cholinergiques du nerf vague (parasympathique) favorisent la vidange biliaire."
+  },
+  {
+    "question": "Parmi les phénomènes suivants indiquer ceux qui peuvent donner un ictère",
+    "options": [
+      "l'hémolyse physiologique",
+      "la destruction des cellules hépatiques (cytolyse)",
+      "l'obstruction des voies biliaires principales",
+      "les anémies hémolytiques",
+      "l'excès d'hémoglobine dans le sang"
+    ],
+    "correct": [1, 2, 3],
+    "explanation": "La destruction des cellules hépatiques (cytolyse), l'obstruction des voies biliaires principales et les anémies hémolytiques peuvent donner un ictère."
+  },
+  {
+    "question": "Dans la digestion et l'absorption des glucides",
+    "options": [
+      "l'amylase produit des oligosaccharides et des dextrines",
+      "les oligosaccharides sont transformés en sucres simples dans la lumière intestinale",
+      "le glucose et le galactose sont absorbés par un mécanisme de transport actif secondaire dépendant du Na+",
+      "les pentoses sont absorbés par simple diffusion",
+      "le glucose et le galactose sont transportés hors de l'entérocyte dans l'espace interstitiel par le SGLT1"
+    ],
+    "correct": [0, 2, 3],
+    "explanation": "L'amylase produit des oligosaccharides et des dextrines, le glucose et le galactose sont absorbés par un mécanisme de transport actif secondaire dépendant du Na+, et les pentoses sont absorbés par simple diffusion."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant à la sécrétion intestinale indiquer celles qui sont correctes",
+    "options": [
+      "Elle est élaborée par les cellules épithéliales des cryptes",
+      "Il s'agit d'un liquide intracellulaire",
+      "Elle est rapidement réabsorbée par les villosités",
+      "Elle contient du mucus",
+      "Après les repas elle agit avec la motricité pour prévenir la pullulation microbienne"
+    ],
+    "correct": [0, 2, 3, 4],
+    "explanation": "La sécrétion intestinale est élaborée par les cellules épithéliales des cryptes, est rapidement réabsorbée par les villosités, contient du mucus et agit avec la motricité après les repas pour prévenir la pullulation microbienne."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant à l'absorption intestinale du sodium indiquer celles qui sont correctes",
+    "options": [
+      "elle se fait par voie intercellulaire au niveau du duodénum",
+      "elle se fait par voie transcellulaire dans le jéjunum proximal",
+      "elle se fait par transport actif dans le grêle distal",
+      "elle est diminuée par la présence de glucose et d'acides aminés",
+      "la sortie du Na+ du côté basolatéral de l'entérocyte se fait passivement selon un gradient de concentration"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "L'absorption intestinale du sodium se fait par voie intercellulaire au niveau du duodénum, par voie transcellulaire dans le jéjunum proximal et par transport actif dans le grêle distal."
+  },
+  {
+    "question": "Dans le contrôle des mouvements hydroélectrolytiques de l'intestin",
+    "options": [
+      "la gastrine, la sécrétine et le glucagon stimulent l'absorption",
+      "la substance P diminue l'absorption du Na+ et augmente la sécrétion des chlorures",
+      "l'histamine, les radicaux libres, la bradykinine produits par les cellules du chorion stimulent la sécrétion",
+      "l'aldostérone stimule la sécrétion de Na+ et l'absorption de K+ et d'eau dans le côlon",
+      "la stimulation du sympathique augmente l'absorption"
+    ],
+    "correct": [1, 2, 4],
+    "explanation": "La substance P diminue l'absorption du Na+ et augmente la sécrétion des chlorures, l'histamine, les radicaux libres, la bradykinine produits par les cellules du chorion stimulent la sécrétion, et la stimulation du sympathique augmente l'absorption."
+  },
+  {
+    "question": "Le complexe moteur migrant (CMM)",
+    "options": [
+      "est l'activité mécanique de l'intestin grêle durant les périodes interdigestives",
+      "la phase I du CMM se caractérise par l'absence d'activité contractile",
+      "la phase II se caractérise par une activité contractile régulière et propagée",
+      "la phase III se caractérise par une activité contractile irrégulière locale",
+      "s'interrompt pendant la période digestive"
+    ],
+    "correct": [0, 1, 2, 4],
+    "explanation": "Le complexe moteur migrant (CMM) est l'activité mécanique de l'intestin grêle durant les périodes interdigestives, la phase I du CMM se caractérise par l'absence d'activité contractile, la phase II se caractérise par une activité contractile régulière et propagée, et s'interrompt pendant la période digestive."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant à la diarrhée indiquer celles qui sont correctes",
+    "options": [
+      "la diarrhée osmotique persiste avec le jeûne",
+      "les aliments mal digérés comme dans l'insuffisance pancréatique est une cause de la diarrhée osmotique",
+      "la diarrhée induite par une entérotoxine (choléra, typhoïde) est de type sécrétoire",
+      "la diarrhée sécrétoire s'interrompt quand le patient jeûne",
+      "la diarrhée motrice peut être due à un péristaltisme anormalement réduit"
+    ],
+    "correct": [1, 2],
+    "explanation": "Les aliments mal digérés comme dans l'insuffisance pancréatique sont une cause de la diarrhée osmotique et la diarrhée induite par une entérotoxine (choléra, typhoïde) est de type sécrétoire."
+  },
+  {
+    "question": "Parmi les étapes suivantes de la respiration indiquer celles qui se font par simple diffusion",
+    "options": [
+      "Échange de gaz entre l'atmosphère et les poumons",
+      "Échange de gaz entre les poumons et le sang qui les traverse",
+      "Transport d'O2 par le sang",
+      "Transport de CO2 par le sang",
+      "Échange de gaz entre le sang et les cellules"
+    ],
+    "correct": [1, 4],
+    "explanation": "L'échange de gaz entre les poumons et le sang qui les traverse et l'échange de gaz entre le sang et les cellules se font par simple diffusion."
+  },
+  {
+    "question": "Parmi les événements suivants indiquer ceux qui surviennent pendant l'expiration",
+    "options": [
+      "relâchement du diaphragme",
+      "augmentation du volume de la cage thoracique",
+      "diminution de la pression alvéolaire",
+      "diminution de la pression barométrique",
+      "augmentation de la pression intrapleurale"
+    ],
+    "correct": [0, 2, 4],
+    "explanation": "Pendant l'expiration, le diaphragme se relâche, la pression alvéolaire diminue et la pression intrapleurale augmente."
+  },
+  {
+    "question": "Parmi les facteurs suivants indiquer ceux dont dépendent les volumes d'air déplacés au cours de la ventilation",
+    "options": [
+      "la pression barométrique",
+      "la pression intrathoracique",
+      "l'amplitude des mouvements thoraciques",
+      "les résistances aux mouvements thoraco-pulmonaires",
+      "les résistances à l'écoulement d'air dans les voies aériennes"
+    ],
+    "correct": [2, 3, 4],
+    "explanation": "Les volumes d'air déplacés au cours de la ventilation dépendent de l'amplitude des mouvements thoraciques, des résistances aux mouvements thoraco-pulmonaires et des résistances à l'écoulement d'air dans les voies aériennes."
+  },
+  {
+    "question": "Parmi les volumes et capacités suivants indiquer ceux pouvant être mesurés par le spiromètre",
+    "options": [
+      "Le volume de réserve inspiratoire",
+      "Le volume de réserve expiratoire",
+      "Le volume résiduel",
+      "La capacité résiduelle fonctionnelle",
+      "La capacité pulmonaire totale"
+    ],
+    "correct": [0, 1],
+    "explanation": "Le volume de réserve inspiratoire et le volume de réserve expiratoire peuvent être mesurés par le spiromètre."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant à la courbe pression-volume indiquer celles qui sont correctes",
+    "options": [
+      "elle étudie la variation de pression engendrée par une variation de volume",
+      "la compliance est le rapport de la variation de pression divisée par la variation de volume (C= ΔP/ΔV)",
+      "la relation pression-volume est linéaire au voisinage de la CRF",
+      "la compliance donne une idée sur la distensibilité",
+      "La compliance pulmonaire est de 0,2 à 0,3 l/cm H2O chez l'adulte sain"
+    ],
+    "correct": [0, 2, 3, 4],
+    "explanation": "La courbe pression-volume étudie la variation de pression engendrée par une variation de volume, la relation pression-volume est linéaire au voisinage de la CRF, la compliance donne une idée sur la distensibilité et la compliance pulmonaire est de 0,2 à 0,3 l/cm H2O chez l'adulte sain."
+  },
+  {
+    "question": "Parmi les facteurs suivants indiquer ceux bronchoconstricteurs",
+    "options": [
+      "le Vaso-Intestinal-Peptide (VIP)",
+      "les mastocytes",
+      "les macrophages alvéolaires",
+      "les polynucléaires éosinophiles et neutrophiles",
+      "les lymphocytes B"
+    ],
+    "correct": [1, 3],
+    "explanation": "Les mastocytes et les polynucléaires éosinophiles et neutrophiles sont des facteurs bronchoconstricteurs."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant aux échanges gazeux alvéolo-capillaires indiquer celles qui sont correctes",
+    "options": [
+      "la différence de pression entre le gaz alvéolaire et le sang des capillaires pulmonaires est le facteur essentiel des échanges",
+      "le gradient de pression de l'oxygène est de 20 mm Hg",
+      "le gradient de pression du gaz carbonique est de 60 mm Hg",
+      "dans les conditions normales la pression partielle d'oxygène du sang s'égalise avec celle des alvéoles avant la fin du capillaire pulmonaire",
+      "la diffusion du CO est facilitée par sa plus grande solubilité"
+    ],
+    "correct": [0, 3],
+    "explanation": "La différence de pression entre le gaz alvéolaire et le sang des capillaires pulmonaires est le facteur essentiel des échanges et dans les conditions normales la pression partielle d'oxygène du sang s'égalise avec celle des alvéoles avant la fin du capillaire pulmonaire."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant au rapport ventilation-perfusion indiquer celles qui sont correctes",
+    "options": [
+      "les différentes régions du poumon ne sont pas ventilées et perfusées de façon égale du fait de la pesanteur (la gravité)",
+      "le gradient de pression intrapleurale peut conduire au collapsus des alvéoles en expiration forcée",
+      "chez un sujet assis les sommets sont moins bien ventilés que les bases",
+      "en position debout la ventilation et la perfusion augmentent de la base vers le sommet",
+      "les sommets sont mieux perfusés que ventilés"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "Les différentes régions du poumon ne sont pas ventilées et perfusées de façon égale du fait de la pesanteur (la gravité), le gradient de pression intrapleurale peut conduire au collapsus des alvéoles en expiration forcée, et chez un sujet assis les sommets sont moins bien ventilés que les bases."
+  },
+  {
+    "question": "L'espace mort anatomique",
+    "options": [
+      "correspond au volume des voies aériennes et des alvéoles non perfusés",
+      "est égal au volume des voies aériennes jusqu'à la 16ème division",
+      "est de 150 ml chez l'adulte normal",
+      "participe aux échanges gazeux",
+      "fait partie de l'espace mort physiologique"
+    ],
+    "correct": [1, 2, 4],
+    "explanation": "L'espace mort anatomique est égal au volume des voies aériennes jusqu'à la 16ème division, est de 150 ml chez l'adulte normal et fait partie de l'espace mort physiologique."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant au transport du gaz carbonique par le sang indiquer celles qui sont correctes",
+    "options": [
+      "la forme dissoute est quantitativement importante (30 %)",
+      "la forme d'ions bicarbonate (HCO3-) représente 67 % du CO2",
+      "quand la PCO2 augmente les ions HCO3- augmentent",
+      "l'augmentation de la PO2 diminue",
+      "l'augmentation du pH augmente l'affinité de l'hémoglobine au CO2"
+    ],
+    "correct": [1, 2],
+    "explanation": "La forme d'ions bicarbonate (HCO3-) représente 67 % du CO2 et quand la PCO2 augmente les ions HCO3- augmentent."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant au transport de l'oxygène par le sang indiquer celles qui sont correctes",
+    "options": [
+      "100 ml de plasma peuvent dissoudre 3 ml d'O2 aux pressions moyennes alvéolaires et artérielles",
+      "la quantité d'O2 fixée par l'hémoglobine (Hb) dépend de la pression partielle de l'O2 dans le sang",
+      "à la pression partielle de 100 mm Hg d'oxygène dans le sang l'Hb est saturée à 100%",
+      "à la partie haute de la courbe de saturation (entre 70 et 100 mm Hg) la diminution de PO2 n'entraîne qu'une faible diminution de la saturation",
+      "dans sa partie basse de la courbe de faibles variations de PO2 entraînent de grandes variations de la saturation"
+    ],
+    "correct": [1, 2, 3, 4],
+    "explanation": "La quantité d'O2 fixée par l'hémoglobine (Hb) dépend de la pression partielle de l'O2 dans le sang, à la pression partielle de 100 mm Hg d'oxygène dans le sang l'Hb est saturée à 100%, à la partie haute de la courbe de saturation (entre 70 et 100 mm Hg) la diminution de PO2 n'entraîne qu'une faible diminution de la saturation, et dans sa partie basse de la courbe de faibles variations de PO2 entraînent de grandes variations de la saturation."
+  },
+  {
+    "question": "Parmi les facteurs suivants indiquer ceux dont la diminution augmente l'affinité de l'hémoglobine pour l'oxygène",
+    "options": [
+      "la PCO2 du sang",
+      "le pH sanguin",
+      "le 2,3-DPG",
+      "la PO2 du sang",
+      "la température centrale"
+    ],
+    "correct": [1],
+    "explanation": "L'augmentation du pH sanguin (diminution de l'acidité) augmente l'affinité de l'hémoglobine pour l'oxygène."
+  },
+  {
+    "question": "Dans le contrôle de la ventilation",
+    "options": [
+      "l'objectif est de maintenir les gaz du sang artériel dans d'étroites limites",
+      "le paramètre régulé est la pression partielle de l'oxygène dans le sang (PaO2) qui doit être maintenue constante",
+      "la commande ventilatoire inspiratoire atteint d'abord le diaphragme puis les muscles dilatateurs des voies aériennes supérieures",
+      "les centres respiratoires générateurs du rythme respiratoire sont formés de deux amas du groupe respiratoire dorsal (GRD) et du groupe respiratoire ventral (GRV)",
+      "le GRD intègre les informations d'origine périphérique et envoie des efférences vers les motoneurones du nerf phrénique"
+    ],
+    "correct": [0, 3, 4],
+    "explanation": "L'objectif du contrôle de la ventilation est de maintenir les gaz du sang artériel dans d'étroites limites, les centres respiratoires générateurs du rythme respiratoire sont formés de deux amas du groupe respiratoire dorsal (GRD) et du groupe respiratoire ventral (GRV), et le GRD intègre les informations d'origine périphérique et envoie des efférences vers les motoneurones du nerf phrénique."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant au contrôle de la ventilation par les chémorécepteurs indiquer celles qui sont correctes",
+    "options": [
+      "les chémorécepteurs centraux répondent aux variations du pH du liquide céphalo-rachidien (LCR)",
+      "les chémorécepteurs périphériques sont le seul support de la sensibilité à une baisse de PaO2",
+      "les chémorécepteurs périphériques répondent aussi à l'augmentation de PaCO2 et à la baisse du pH sanguin artériel",
+      "les chémorécepteurs périphériques sont responsables de 60 % de la réponse ventilatoire au CO2",
+      "les chémorécepteurs périphériques sont responsables de 40 % de la réponse ventilatoire à l'O2"
+    ],
+    "correct": [0, 2, 4],
+    "explanation": "Les chémorécepteurs centraux répondent aux variations du pH du liquide céphalo-rachidien (LCR), les chémorécepteurs périphériques répondent aussi à l'augmentation de PaCO2 et à la baisse du pH sanguin artériel, et les chémorécepteurs périphériques sont responsables de 40 % de la réponse ventilatoire à l'O2."
+  },
+  {
+    "question": "Pendant la phase de déficit en O2 au début d'un exercice musculaire de puissance modérée et croissante, les sources d'énergie sont",
+    "options": [
+      "La glycolyse aérobie",
+      "L'oxydation des acides gras",
+      "L'augmentation de l'extraction de l'O2 du sang artériel",
+      "La diminution de la saturation en O2 de l'hémoglobine",
+      "La diminution des stocks d'O2 de la myoglobine"
+    ],
+    "correct": [2, 4],
+    "explanation": "Pendant la phase de déficit en O2, l'augmentation de l'extraction de l'O2 du sang artériel et la diminution des stocks d'O2 de la myoglobine sont des sources d'énergie."
+  },
+  {
+    "question": "Parmi les propositions suivantes se rapportant aux modifications de la VO2 au cours de l'exercice musculaire indiquer celles qui sont correctes",
+    "options": [
+      "au début de l'exercice la VO2 est égale aux besoins métaboliques de l'organisme",
+      "à l'arrêt de l'exercice la VO2 reste supérieure par rapport à sa valeur de repos pendant plusieurs minutes",
+      "lors d'exercices à puissance croissante la VO2 augmente jusqu'à une valeur maximale (VO2max)",
+      "la VO2max est d'environ 3 l/mn chez un sujet sain ayant un poids de 75 Kg",
+      "La VO2max augmente de 10 % tous les 10 ans à partir de l'âge de 20 ans"
+    ],
+    "correct": [1, 2],
+    "explanation": "À l'arrêt de l'exercice, la VO2 reste supérieure par rapport à sa valeur de repos pendant plusieurs minutes et lors d'exercices à puissance croissante la VO2 augmente jusqu'à une valeur maximale (VO2max)."
+  },
+  {
+    "question": "En cas de syndrome obstructif on observe une augmentation",
+    "options": [
+      "de la capacité vitale (CV)",
+      "du Volume expiratoire maximum seconde (VEMS)",
+      "du rapport de Tiffeneau (VEMS/CV)",
+      "du volume résiduel (VR)",
+      "du rapport Volume Résiduel/Capacité Pulmonaire Totale (VR/CPT)"
+    ],
+    "correct": [3, 4],
+    "explanation": "En cas de syndrome obstructif, on observe une augmentation du volume résiduel (VR) et du rapport Volume Résiduel/Capacité Pulmonaire Totale (VR/CPT)."
+  },
+  {
+    "question": "Les cellules myocardiques banales sont:",
+    "options": [
+      "conductrices",
+      "contractiles",
+      "douées d'automatisme",
+      "excitables",
+      "le siège d'un potentiel de repos de -65 mV"
+    ],
+    "correct": [1, 3],
+    "explanation": "Les cellules myocardiques banales sont contractiles et excitables."
+  },
+  {
+    "question": "Le système sympathique:",
+    "options": [
+      "accélère le rythme cardiaque",
+      "augmente la contractilité cardiaque",
+      "innerve les cellules du tissu nodal et les cellules myocardiques banales",
+      "raccourcit la période réfractaire des cellules myocardiques",
+      "ralentit la conduction auriculo-ventriculaire"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "Le système sympathique accélère le rythme cardiaque, augmente la contractilité cardiaque et innerve les cellules du tissu nodal et les cellules myocardiques banales."
+  },
+  {
+    "question": "Les cellules « pacemakers »:",
+    "options": [
+      "ont un potentiel de repos de -85 mV",
+      "ont un potentiel de repos stable",
+      "sont caractérisées par l'absence de plateau sur leur potentiel d'action",
+      "sont caractérisées par la dépolarisation la plus lente sur le potentiel d'action",
+      "sont les cellules du nœud sinusal"
+    ],
+    "correct": [2, 4],
+    "explanation": "Les cellules « pacemakers » sont caractérisées par l'absence de plateau sur leur potentiel d'action et sont les cellules du nœud sinusal."
+  },
+  {
+    "question": "La phase 0 du potentiel d'action (PA):",
+    "options": [
+      "correspond à la deuxième phase",
+      "correspond à la période réfractaire absolue de la cellule myocardique",
+      "dépend d'un courant entrant calcique pour les cellules sinusales",
+      "est rapide pour les cellules myocardiques banales",
+      "survient spontanément dans les cellules du tissu nodal"
+    ],
+    "correct": [2, 3],
+    "explanation": "La phase 0 du potentiel d'action (PA) dépend d'un courant entrant calcique pour les cellules sinusales et est rapide pour les cellules myocardiques banales."
+  },
+  {
+    "question": "La période réfractaire absolue:",
+    "options": [
+      "a une durée 50 ms",
+      "caractérise toutes les cellules myocardiques",
+      "correspond à la durée du potentiel d'action (PA) de la cellule myocardique",
+      "empêche la tétanisation du cœur",
+      "est la période où la cellule est totalement inexcitable"
+    ],
+    "correct": [1, 3, 4],
+    "explanation": "La période réfractaire absolue caractérise toutes les cellules myocardiques, empêche la tétanisation du cœur et est la période où la cellule est totalement inexcitable."
+  },
+  {
+    "question": "Les dérivations bipolaires comportent:",
+    "options": [
+      "aVF",
+      "aVR",
+      "DI",
+      "DII",
+      "V1"
+    ],
+    "correct": [2, 3],
+    "explanation": "Les dérivations bipolaires comportent DI et DII."
+  },
+  {
+    "question": "Sur le tracé ECG:",
+    "options": [
+      "l'onde P correspond à la dépolarisation auriculaire",
+      "l'onde T correspond à la repolarisation auriculaire",
+      "le complexe QRS correspond à la dépolarisation ventriculaire",
+      "le segment PR correspond à la durée de conduction auriculo-ventriculaire",
+      "le segment ST correspond à la durée du potentiel d'action"
+    ],
+    "correct": [0, 2, 3],
+    "explanation": "Sur le tracé ECG, l'onde P correspond à la dépolarisation auriculaire, le complexe QRS correspond à la dépolarisation ventriculaire et le segment PR correspond à la durée de conduction auriculo-ventriculaire."
+  },
+  {
+    "question": "L'ECG d'un adulte jeune a montré les données suivantes: l'onde P précède toujours les complexes QRS, la distance entre les ondes R est constante et elle est égale à 4 gros carreaux.",
+    "options": [
+      "la distance entre les ondes R est courte",
+      "la fréquence cardiaque est de 75 battements/minute",
+      "le rythme cardiaque à cet ECG est accéléré",
+      "le rythme de cet ECG est régulier",
+      "le rythme de cet ECG est sinusal"
+    ],
+    "correct": [1, 3, 4],
+    "explanation": "Avec une distance de 4 gros carreaux entre les ondes R, la fréquence cardiaque est de 75 battements/minute, le rythme est régulier et sinusal car l'onde P précède chaque QRS."
+  },
+  {
+    "question": "Au cours du cycle cardiaque:",
+    "options": [
+      "la durée de la diastole est supérieure à celle de la systole",
+      "les phénomènes électriques précèdent les phénomènes mécaniques",
+      "les pressions dans les oreillettes sont constantes durant tout le cycle",
+      "les séquences se produisent simultanément dans le cœur droit et le cœur gauche",
+      "les valves tricuspides et les sigmoïdes aortiques s'ouvrent au même temps"
+    ],
+    "correct": [0, 1],
+    "explanation": "Au cours du cycle cardiaque, la durée de la diastole est supérieure à celle de la systole et les phénomènes électriques précèdent les phénomènes mécaniques."
+  },
+  {
+    "question": "La systole ventriculaire gauche",
+    "options": [
+      "comporte une phase de contraction isovolumétrique",
+      "débute par le premier bruit cardiaque (B1)",
+      "est caractérisée par la vidange complète du ventricule du sang",
+      "est contemporaine du complexe QRS à l'ECG",
+      "se termine par la fermeture des sigmoïdes aortiques"
+    ],
+    "correct": [0, 1, 3, 4],
+    "explanation": "La systole ventriculaire gauche comporte une phase de contraction isovolumétrique, débute par le premier bruit cardiaque (B1), est contemporaine du complexe QRS à l'ECG et se termine par la fermeture des sigmoïdes aortiques."
+  },
+  {
+    "question": "Le volume télédiastolique (VTD) est de 145 ml, le volume télésystolique (VTS) est de 65 ml, la fréquence cardiaque est de 70 c/mn, le débit cardiaque (Qs) en ml est de",
+    "options": [
+      "5400",
+      "5500",
+      "5600",
+      "5800",
+      "6000"
+    ],
+    "correct": [2],
+    "explanation": "Le volume d'éjection systolique (VES) = VTD - VTS = 145 ml - 65 ml = 80 ml. Le débit cardiaque (Qs) = VES x fréquence cardiaque = 80 ml/battement x 70 battements/minute = 5600 ml/minute."
+  },
+  {
+    "question": "Le débit cardiaque augmente en cas d'augmentation:",
+    "options": [
+      "de l'inotropisme cardiaque",
+      "de la postcharge",
+      "du retour veineux",
+      "du tonus sympathique",
+      "du volume télésystolique"
+    ],
+    "correct": [0, 2, 3],
+    "explanation": "Le débit cardiaque augmente en cas d'augmentation de l'inotropisme cardiaque, du retour veineux et du tonus sympathique."
+  },
+  {
+    "question": "Une stimulation des barorécepteurs aortiques et carotidiens provoque:",
+    "options": [
+      "un effet chronotrope négatif",
+      "un effet dromotrope positif",
+      "un effet inotrope positif",
+      "une augmentation des influx véhiculés par les afférences",
+      "une vasodilatation périphérique"
+    ],
+    "correct": [0, 3, 4],
+    "explanation": "Une stimulation des barorécepteurs aortiques et carotidiens provoque un effet chronotrope négatif, une augmentation des influx véhiculés par les afférences et une vasodilatation périphérique."
+  },
+  {
+    "question": "Une vasodilatation périphérique peut être provoquée par:",
+    "options": [
+      "l'acide lactique",
+      "l'endothéline",
+      "l'hypercapnie",
+      "la baisse de la température",
+      "le monoxyde d'azote (NO)"
+    ],
+    "correct": [0, 2, 4],
+    "explanation": "Une vasodilatation périphérique peut être provoquée par l'acide lactique, l'hypercapnie et le monoxyde d'azote (NO)."
+  },
+  {
+    "question": "Un état de choc hémorragique s'accompagne:",
+    "options": [
+      "d'une augmentation de l'excrétion urinaire",
+      "d'une baisse du débit rénal",
+      "d'une diminution de la pression artérielle moyenne",
+      "d'une tachycardie",
+      "d'une vasodilatation veineuse"
+    ],
+    "correct": [1, 2, 3],
+    "explanation": "Un état de choc hémorragique s'accompagne d'une baisse du débit rénal, d'une diminution de la pression artérielle moyenne et d'une tachycardie."
+  },
+  {
+    "question": "La circulation veineuse",
+    "options": [
+      "assure le retour veineux",
+      "est améliorée par les mouvements respiratoires",
+      "est caractérisée par des résistances élevées à l'écoulement",
+      "est caractérisée par une pression basse",
+      "renferme 5% de la volémie"
+    ],
+    "correct": [0, 1, 3],
+    "explanation": "La circulation veineuse assure le retour veineux, est améliorée par les mouvements respiratoires et est caractérisée par une pression basse."
+  },
+  {
+    "question": "La circulation cérébrale est caractérisée par:",
+    "options": [
+      "un débit sanguin local élevé",
+      "un gradient de pression faible",
+      "une autorégulation par la teneur en CO2 et en H+ dans le sang",
+      "une rapidité de l'écoulement facilitée par la béance des veines cérébrales",
+      "une variabilité qui dépend de la pression artérielle systémique"
+    ],
+    "correct": [0, 2, 3],
+    "explanation": "La circulation cérébrale est caractérisée par un débit sanguin local élevé, une autorégulation par la teneur en CO2 et en H+ dans le sang, et une rapidité de l'écoulement facilitée par la béance des veines cérébrales."
+  },
+  {
+    "question": "Lors de l'exercice musculaire le débit sanguin:",
+    "options": [
+      "cérébral diminue",
+      "coronaire augmente",
+      "digestif diminue",
+      "pulmonaire diminue",
+      "rénal diminue"
+    ],
+    "correct": [1, 2, 4],
+    "explanation": "Lors de l'exercice musculaire, le débit sanguin coronaire augmente, le débit sanguin digestif diminue et le débit sanguin rénal diminue."
+  },
+  {
+    "question": "L'exercice physique régulier est à l'origine:",
+    "options": [
+      "d'une accélération de la fréquence cardiaque de base",
+      "d'une amélioration des performances myocardiques systoliques",
+      "d'une augmentation de l'irrigation myocardique",
+      "d'une diminution des performances myocardiques diastoliques",
+      "d'une hypertrophie harmonieuse des cavités du cœur"
+    ],
+    "correct": [1, 2, 4],
+    "explanation": "L'exercice physique régulier est à l'origine d'une amélioration des performances myocardiques systoliques, d'une augmentation de l'irrigation myocardique et d'une hypertrophie harmonieuse des cavités du cœur."
+  },
+  {
+    "question": "Au cours de l'exercice musculaire on observe une augmentation de:",
+    "options": [
+      "l'inotropisme",
+      "la différence artério-veineuse en O2 au niveau périphérique",
+      "la fréquence cardiaque",
+      "la postcharge",
+      "volume télésystolique"
+    ],
+    "correct": [0, 1, 2],
+    "explanation": "Au cours de l'exercice musculaire, on observe une augmentation de l'inotropisme, de la différence artério-veineuse en O2 au niveau périphérique et de la fréquence cardiaque."
+  }
+]

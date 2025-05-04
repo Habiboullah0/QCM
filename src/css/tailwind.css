@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 79, 70, 229;
+    --color-success: 16, 185, 129;
+    --color-error: 239, 68, 68;
+    --color-warning: 245, 158, 11;
+    --color-bg: 249, 250, 251;
+    --color-card-bg: 255, 255, 255;
+    --color-text: 31, 41, 55;
+    --color-text-secondary: 107, 114, 128;
+    --color-border: 229, 231, 235;
+  }
+
+  .dark {
+    --color-primary: 99, 102, 241;
+    --color-success: 52, 211, 153;
+    --color-error: 248, 113, 113;
+    --color-warning: 251, 191, 36;
+    --color-bg: 17, 24, 39;
+    --color-card-bg: 31, 41, 55;
+    --color-text: 249, 250, 251;
+    --color-text-secondary: 209, 213, 219;
+    --color-border: 75, 85, 99;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-2;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/90 active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 active:scale-95;
+  }
+  
+  .btn-success {
+    @apply bg-success text-white hover:bg-success/90 active:scale-95;
+  }
+  
+  .btn-error {
+    @apply bg-error text-white hover:bg-error/90 active:scale-95;
+  }
+  
+  .btn-warning {
+    @apply bg-warning text-white hover:bg-warning/90 active:scale-95;
+  }
+  
+  .card {
+    @apply bg-card-bg rounded-xl shadow-md p-6 transition-all duration-300 hover:shadow-lg border border-border;
+  }
+  
+  .input {
+    @apply px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300;
+  }
+  
+  .select {
+    @apply px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300;
+  }
+  
+  .checkbox {
+    @apply w-5 h-5 rounded border border-gray-300 dark:border-gray-600 text-primary focus:ring-primary/50 transition-all duration-300;
+  }
+  
+  .progress-bar {
+    @apply h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden;
+  }
+  
+  .progress-value {
+    @apply h-full bg-primary rounded-full transition-all duration-300;
+  }
+  
+  .quiz-option {
+    @apply flex items-center gap-3 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary bg-white dark:bg-gray-800 transition-all duration-300 cursor-pointer;
+  }
+  
+  .quiz-option.correct {
+    @apply border-success bg-success/10;
+  }
+  
+  .quiz-option.incorrect {
+    @apply border-error bg-error/10;
+  }
+  
+  .quiz-option.selected {
+    @apply border-primary bg-primary/5;
+  }
+  
+  .timer {
+    @apply px-3 py-1 rounded-full bg-primary text-white font-mono font-bold;
+  }
+}
+
+/* Custom animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+/* RTL Support */
+[dir="rtl"] .quiz-option {
+  @apply text-right;
+}
+
+[dir="rtl"] .btn {
+  @apply flex-row-reverse;
+}
