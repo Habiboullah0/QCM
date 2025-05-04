@@ -1366,6 +1366,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     function showCorrectAnswerForCurrentQuestion() {
+        dom.quizArea.scrollIntoView({ behavior: "smooth", block: "center" });
         if (state.reviewMode || state.currentQuestions.length === 0) return;
 
         const currentQuestionIndex = state.currentQuestionIndex;
