@@ -1394,9 +1394,43 @@ document.addEventListener("DOMContentLoaded", () => {
         dom.checkButton.disabled = !state.areAllQuestionsAttempted();
     }
 
-    function init() {
+    async function populateQuizSelector() {
+        try {
+            const response = await fetch("https://habiboullah0.github.io/QCMsFile/qcmsList.json");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} while fetching qcmsList.json`);
+            }
+            const qcmsList = await response.json();
+
+            if (!dom.quizSelector) {
+                console.error("quizSelector element not found in DOM.");
+                return;
+            }
+            dom.quizSelector.innerHTML = "";
+
+            qcmsList.forEach((item) => {
+                const option = document.createElement("option");
+                option.value = item.value;
+                option.textContent = item.title;
+                option.dataset.file = item.file;
+                option.dataset.title = item.title;
+                dom.quizSelector.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Could not load or parse qcmsList.json:", error);
+            if (dom.quizSelector) {
+                dom.quizSelector.innerHTML = '<option value="">Erreur de chargement des QCMs</option>';
+                dom.quizSelector.disabled = true;
+            }
+            uiManager.displayLoadError("qcmsList.json", error);
+        }
+    }
+
+    async function init() {
         themeManager.init();
         eventListeners.setup();
+
+        await populateQuizSelector();
 
         const savedStateData = state.load();
         let quizToLoad = null;
