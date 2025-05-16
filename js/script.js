@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const dom = {
+        quizContainer: document.getElementById("quizContainer"),
         quizSelector: document.getElementById("quizSelector"),
         quizDescription: document.getElementById("quizDescription"),
         highScoreDisplay: document.getElementById("highScoreDisplay"),
@@ -151,25 +152,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 customQuestionCount: dom.customQuestionCount.value,
             };
             try {
-                sessionStorage.setItem(config.storageKeys.quizState, JSON.stringify(quizState));
+                localStorage.setItem(config.storageKeys.quizState, JSON.stringify(quizState));
             } catch (e) {
-                console.error("Error saving quiz state to sessionStorage:", e);
+                console.error("Error saving quiz state to localStorage:", e);
             }
         },
 
         load() {
             try {
-                const savedState = sessionStorage.getItem(config.storageKeys.quizState);
+                const savedState = localStorage.getItem(config.storageKeys.quizState);
                 return savedState ? JSON.parse(savedState) : null;
             } catch (e) {
-                console.error("Error loading quiz state from sessionStorage:", e);
-                sessionStorage.removeItem(config.storageKeys.quizState);
+                console.error("Error loading quiz state from localStorage:", e);
+                localStorage.removeItem(config.storageKeys.quizState);
                 return null;
             }
         },
 
         clearSaved() {
-            sessionStorage.removeItem(config.storageKeys.quizState);
+            localStorage.removeItem(config.storageKeys.quizState);
         },
 
         updateAnswer(qIndex, optIndex, isChecked) {
@@ -560,6 +561,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (dom.questionCountSelector.value === "custom") {
                 dom.customQuestionCount.disabled = isLoading;
                 dom.applyCustomCountButton.disabled = isLoading;
+            }
+            
+            if (isLoading) { 
+                dom.quizContainer.style.overflow = "hidden";
+            } else { 
+                dom.quizContainer.style.overflow = "";
             }
         },
 
