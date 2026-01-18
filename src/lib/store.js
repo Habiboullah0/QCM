@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { shuffleArray } from './utils';
+import { shuffleArray } from './utils'; 
 
 export const useQuizStore = create(
   persist(
@@ -42,7 +42,9 @@ export const useQuizStore = create(
           if (!res.ok) throw new Error("Failed to fetch");
           const data = await res.json();
           const { settings } = get();
-          let questionsToUse = shuffleArray(data);
+          
+          let questionsToUse = [...data];
+          
           let limit = data.length;
           if (settings.questionCount !== 'all') {
             limit = settings.questionCount === 'custom' ? settings.customCount : parseInt(settings.questionCount);
@@ -110,7 +112,8 @@ export const useQuizStore = create(
         const { allQuestions, settings } = get();
         if (allQuestions.length === 0) { set({ status: 'idle' }); return; }
         
-        let questionsToUse = shuffleArray(allQuestions);
+        let questionsToUse = [...allQuestions];
+        
         let limit = allQuestions.length;
         if (settings.questionCount !== 'all') {
           limit = settings.questionCount === 'custom' ? settings.customCount : parseInt(settings.questionCount);
@@ -145,7 +148,7 @@ export const useQuizStore = create(
       },
     }),
     {
-      name: 'quiz-storage-v8',
+      name: 'quiz-storage',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         currentQuizKey: state.currentQuizKey,
