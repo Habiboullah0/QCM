@@ -114,7 +114,7 @@ export default function Home() {
       
       <footer style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid var(--card-border)', textAlign: 'center', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
         <p>
-          Developed By <a href="https://www.facebook.com/habiboullah.balegh.1" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 'bold' }}>Habiboullah</a>
+          Developed By <a href="https://www.facebook.com/Habiboullah0" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 'bold' }}>Habiboullah</a>
         </p>
       </footer>
     </main>
