@@ -21,6 +21,8 @@ export const useQuizStore = create(
         customCount: 10,
         showExplanations: true,
         instantFeedback: false,
+        shuffleQuestions: false,
+        shuffleOptions: false,
       },
       
       setSettings: (newSettings) => set((state) => ({ 
@@ -35,21 +37,50 @@ export const useQuizStore = create(
         };
       }),
 
+      processQuestions: (questions) => {
+        const { settings } = get();
+        let processed = [...questions];
+        
+        if (settings.shuffleQuestions) {
+          processed = shuffleArray(processed);
+        }
+
+        let limit = processed.length;
+        if (settings.questionCount !== 'all') {
+          limit = settings.questionCount === 'custom' ? settings.customCount : parseInt(settings.questionCount);
+        }
+        processed = processed.slice(0, limit);
+
+        if (settings.shuffleOptions) {
+          processed = processed.map(q => {
+            // Create an array of indices [0, 1, 2, ...]
+            const indices = q.options.map((_, i) => i);
+            const shuffledIndices = shuffleArray([...indices]);
+            
+            // Map options to new positions
+            const newOptions = shuffledIndices.map(i => q.options[i]);
+            
+            // Map correct indices to new positions
+            const newCorrect = q.correct
+              .map(oldIdx => shuffledIndices.indexOf(oldIdx))
+              .filter(newIdx => newIdx !== -1)
+              .sort((a, b) => a - b);
+
+            return { ...q, options: newOptions, correct: newCorrect, originalIndices: shuffledIndices };
+          });
+        }
+
+        return processed;
+      },
+
       loadQuiz: async (url, key, title) => {
         set({ status: 'loading' });
         try {
           const res = await fetch(url);
           if (!res.ok) throw new Error("Failed to fetch");
           const data = await res.json();
-          const { settings } = get();
           
-          let questionsToUse = [...data];
-          
-          let limit = data.length;
-          if (settings.questionCount !== 'all') {
-            limit = settings.questionCount === 'custom' ? settings.customCount : parseInt(settings.questionCount);
-          }
-          questionsToUse = questionsToUse.slice(0, limit);
+          const questionsToUse = get().processQuestions(data);
           
           set({
             currentQuizKey: key,
@@ -60,7 +91,7 @@ export const useQuizStore = create(
             currentQuestionIndex: 0,
             userAnswers: {},
             quizStartTime: Date.now(),
-            timeLeft: settings.timerDuration * 60,
+            timeLeft: get().settings.timerDuration * 60,
             isTimerActive: false
           });
         } catch (error) {
@@ -68,6 +99,22 @@ export const useQuizStore = create(
           set({ status: 'idle' });
           alert("Erreur lors du chargement du QCM.");
         }
+      },
+
+      loadLocalQuiz: (data, title) => {
+        const questionsToUse = get().processQuestions(data);
+        set({
+          currentQuizKey: 'local-' + Date.now(),
+          quizTitle: title || "Quiz Local",
+          allQuestions: data,
+          currentQuestions: questionsToUse,
+          status: 'active',
+          currentQuestionIndex: 0,
+          userAnswers: {},
+          quizStartTime: Date.now(),
+          timeLeft: get().settings.timerDuration * 60,
+          isTimerActive: false
+        });
       },
 
       selectAnswer: (qIndex, optIndex) => {
@@ -112,15 +159,7 @@ export const useQuizStore = create(
         const { allQuestions, settings } = get();
         if (allQuestions.length === 0) { set({ status: 'idle' }); return; }
         
-        let questionsToUse = [...allQuestions];
-        
-        let limit = allQuestions.length;
-        if (settings.questionCount !== 'all') {
-          limit = settings.questionCount === 'custom' ? settings.customCount : parseInt(settings.questionCount);
-        }
-        if (limit > allQuestions.length) limit = allQuestions.length;
-        
-        questionsToUse = questionsToUse.slice(0, limit);
+        const questionsToUse = get().processQuestions(allQuestions);
         
         set({
           currentQuestions: questionsToUse,

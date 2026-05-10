@@ -5,6 +5,7 @@ import { Doughnut } from 'react-chartjs-2';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import { formatTime } from '@/lib/utils';
+import { Trophy, Target, Clock, AlertCircle } from 'lucide-react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -45,54 +46,103 @@ export default function QuizResults() {
     labels: ['Correct', 'Partiel', 'Incorrect'],
     datasets: [{
       data: [correctCount, partialCount, incorrectCount],
-      backgroundColor: ['rgba(34, 197, 94, 0.8)', 'rgba(234, 179, 8, 0.8)', 'rgba(239, 68, 68, 0.8)'],
-      borderColor: ['rgba(34, 197, 94, 1)', 'rgba(234, 179, 8, 1)', 'rgba(239, 68, 68, 1)'],
-      borderWidth: 1,
+      backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+      hoverOffset: 4,
+      borderWidth: 0,
     }],
   };
 
   let message = "Peut mieux faire 😢";
   let resultClass = "error";
+  let Icon = AlertCircle;
   
   if (percentage >= 80) {
     message = "Excellent travail ! 🏆";
     resultClass = "success";
+    Icon = Trophy;
   } else if (percentage >= 50) {
     message = "Pas mal ! 👍";
     resultClass = "warning";
+    Icon = Target;
   }
 
   return (
     <div className="animate-fade-in">
       {percentage >= 80 && <Confetti width={width} height={height} recycle={false} numberOfPieces={200} />}
       
-      <div className={`result-card ${resultClass}`}>
-        <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>{message}</h2>
-        <p style={{ fontSize: '1.25rem', opacity: 0.9 }}>Score: {score} / {currentQuestions.length}</p>
-        <div style={{ fontSize: '3rem', fontWeight: 800, marginTop: '1rem' }}>{percentage}%</div>
+      <div className={`result-card ${resultClass}`} style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        gap: '1rem',
+        padding: '2.5rem',
+        borderRadius: '20px',
+        marginBottom: '2rem',
+        textAlign: 'center'
+      }}>
+        <Icon size={64} style={{ marginBottom: '0.5rem' }} />
+        <h2 style={{ fontSize: '2.25rem', fontWeight: 800, margin: 0 }}>{message}</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginTop: '0.5rem' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '0.9rem', opacity: 0.8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Score</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{score} / {currentQuestions.length}</div>
+          </div>
+          <div style={{ width: '1px', height: '30px', backgroundColor: 'currentColor', opacity: 0.3 }} />
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '0.9rem', opacity: 0.8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Précision</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{percentage}%</div>
+          </div>
+        </div>
       </div>
 
       <div className="results-layout">
-        <div className="stat-grid">
-          <StatBox label="Correctes" value={correctCount} style={{ color: 'var(--success)', backgroundColor: 'var(--success-bg)', borderColor: 'var(--success-border)' }} />
-          <StatBox label="Partielles" value={partialCount} style={{ color: 'var(--warning)', backgroundColor: 'var(--warning-bg)', borderColor: 'var(--warning-border)' }} />
-          <StatBox label="Incorrectes" value={incorrectCount} style={{ color: 'var(--error)', backgroundColor: 'var(--error-bg)', borderColor: 'var(--error-border)' }} />
-          <StatBox label="Temps" value={formatTime(timeTaken)} style={{ color: 'var(--primary)', backgroundColor: 'var(--primary-light)', borderColor: 'var(--primary)' }} />
+        <div className="stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+          <StatBox label="Correctes" value={correctCount} color="#10b981" bg="rgba(16, 185, 129, 0.1)" />
+          <StatBox label="Partielles" value={partialCount} color="#f59e0b" bg="rgba(245, 158, 11, 0.1)" />
+          <StatBox label="Incorrectes" value={incorrectCount} color="#ef4444" bg="rgba(239, 68, 68, 0.1)" />
+          <StatBox label="Temps" value={formatTime(timeTaken)} color="var(--primary)" bg="var(--primary-light)" icon={Clock} />
         </div>
 
-        <div className="card flex-center" style={{ height: '300px' }}>
-          <Doughnut data={data} options={{ maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }} />
+        <div className="card flex-center" style={{ height: '300px', padding: '2rem' }}>
+          <Doughnut 
+            data={data} 
+            options={{ 
+              maintainAspectRatio: false, 
+              plugins: { 
+                legend: { 
+                  position: 'bottom',
+                  labels: {
+                    usePointStyle: true,
+                    padding: 20,
+                    font: { family: 'Poppins', size: 12 }
+                  }
+                } 
+              },
+              cutout: '70%'
+            }} 
+          />
         </div>
       </div>
     </div>
   );
 }
 
-function StatBox({ label, value, style }) {
+function StatBox({ label, value, color, bg, icon: Icon }) {
   return (
-    <div className="stat-box" style={style}>
-      <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{value}</div>
-      <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>{label}</div>
+    <div className="stat-box" style={{ 
+      padding: '1.25rem', 
+      borderRadius: '12px', 
+      backgroundColor: bg, 
+      border: `1px solid ${color}20`,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.25rem'
+    }}>
+      {Icon && <Icon size={16} color={color} style={{ marginBottom: '0.25rem' }} />}
+      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: color }}>{value}</div>
+      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: color, opacity: 0.8, textTransform: 'uppercase' }}>{label}</div>
     </div>
   );
 }

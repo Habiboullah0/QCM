@@ -4,19 +4,23 @@ import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const poppins = Poppins({ 
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700', '800'],
   subsets: ["latin"],
   variable: "--font-poppins"
 });
 
 export const metadata = {
-  title: "QCM",
-  description: "Plateforme interactive de quiz médicaux",
+  title: "QCM - Plateforme de Quiz Médicaux",
+  description: "Testez vos connaissances avec notre plateforme interactive de QCM médicaux.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icon.png",
+    apple: "/icon.png",
+  }
 };
 
 export const viewport = {
-  themeColor: "#4F46E5",
+  themeColor: "#3b82f6",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -25,9 +29,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/img/favicon.png" />
-      </head>
       <body className={`${inter.variable} ${poppins.variable}`}>
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
           {children}

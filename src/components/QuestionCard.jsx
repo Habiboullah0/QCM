@@ -26,12 +26,19 @@ export default function QuestionCard() {
 
   const selectedOptions = userAnswers[currentQuestionIndex] || [];
   const isReview = status === 'review';
-  const optionLetters = ["A", "B", "C", "D", "E"];
+  const optionLetters = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
   const cleanOptionText = (text, index) => {
-    const letter = optionLetters[index];
-    const regex = new RegExp(`^${letter}[.)\\s-]+\\s*`, 'i');
-    return text.replace(regex, '');
+    // If options are shuffled, we shouldn't rely on the letter in the text
+    // But we can try to clean common prefixes if they exist
+    const prefixes = ["A.", "B.", "C.", "D.", "E.", "A)", "B)", "C)", "D)", "E)"];
+    let cleaned = text;
+    prefixes.forEach(p => {
+      if (cleaned.startsWith(p)) {
+        cleaned = cleaned.substring(p.length).trim();
+      }
+    });
+    return cleaned;
   };
 
   return (
@@ -43,7 +50,7 @@ export default function QuestionCard() {
         <h3 className="question-text">{question.question}</h3>
       </div>
 
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
         {question.options.map((option, idx) => {
           const isSelected = selectedOptions.includes(idx);
           const isCorrect = question.correct.includes(idx);
@@ -81,15 +88,35 @@ export default function QuestionCard() {
               key={idx}
               onClick={() => !isReview && selectAnswer(currentQuestionIndex, idx)}
               className={className}
-              style={{ pointerEvents: isReview ? 'none' : 'auto' }}
+              style={{ 
+                pointerEvents: isReview ? 'none' : 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                padding: '1rem',
+                borderRadius: '10px',
+                border: '1px solid var(--card-border)',
+                cursor: isReview ? 'default' : 'pointer',
+                transition: 'all 0.2s ease'
+              }}
             >
-              <div className="option-checkbox">
-                {isSelected && <Check size={14} />}
+              <div className={`option-checkbox ${isSelected ? 'checked' : ''}`} style={{
+                width: '20px',
+                height: '20px',
+                borderRadius: '4px',
+                border: '2px solid var(--primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                backgroundColor: isSelected ? 'var(--primary)' : 'transparent'
+              }}>
+                {isSelected && <Check size={14} color="white" />}
               </div>
-              <span style={{ fontWeight: 600, color: 'var(--text-muted)', width: '20px', flexShrink: 0 }}>
+              <span style={{ fontWeight: 700, color: 'var(--primary)', width: '25px', flexShrink: 0 }}>
                 {optionLetters[idx]}.
               </span>
-              <span style={{ flexGrow: 1 }}>{cleanedText}</span>
+              <span style={{ flexGrow: 1, fontSize: '1rem' }}>{cleanedText}</span>
               {icon}
             </div>
           );
@@ -100,13 +127,13 @@ export default function QuestionCard() {
         <div style={{ marginTop: '1.5rem' }}>
           <button 
             onClick={() => setShowHint(!showHint)}
-            style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}
           >
-            <HelpCircle size={16} />
+            <HelpCircle size={18} />
             {showHint ? "Masquer l'indice" : "Afficher l'indice"}
           </button>
           {showHint && (
-            <div style={{ marginTop: '0.5rem', padding: '0.75rem', backgroundColor: 'var(--primary-light)', borderRadius: '8px', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+            <div style={{ marginTop: '0.75rem', padding: '1rem', backgroundColor: 'rgba(var(--primary-rgb), 0.1)', borderLeft: '4px solid var(--primary)', borderRadius: '4px', fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               {question.hint}
             </div>
           )}
@@ -114,11 +141,11 @@ export default function QuestionCard() {
       )}
 
       {isReview && settings.showExplanations && question.explanation && (
-        <div style={{ marginTop: '1.5rem', padding: '1rem', backgroundColor: 'var(--primary-light)', borderLeft: '4px solid var(--primary)', borderRadius: '0 8px 8px 0' }}>
-          <h4 style={{ fontWeight: 600, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <AlertCircle size={16} /> Explication
+        <div style={{ marginTop: '1.5rem', padding: '1.25rem', backgroundColor: 'rgba(var(--success-rgb), 0.05)', borderLeft: '4px solid var(--success)', borderRadius: '0 8px 8px 0' }}>
+          <h4 style={{ fontWeight: 700, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--success)' }}>
+            <AlertCircle size={18} /> Explication
           </h4>
-          <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>{question.explanation}</p>
+          <p style={{ fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-muted)' }}>{question.explanation}</p>
         </div>
       )}
     </div>
