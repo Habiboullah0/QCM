@@ -23,7 +23,7 @@ export default function QuizSelector() {
     fetch('https://habiboullah0.github.io/QCMsFile/qcmsList.json')
       .then(res => res.json())
       .then(data => setQuizzes(data))
-      .catch(err => console.error("Failed to load quiz list", err));
+      .catch(err => console.error("Failed to load qcm list", err));
   }, []);
 
   const handleSelect = (e) => {

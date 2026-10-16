@@ -1,140 +1,114 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { shuffleArray } from './utils'; 
+import { persist } from 'zustand/middleware';
 
 export const useQuizStore = create(
   persist(
     (set, get) => ({
+      status: 'idle', // 'idle', 'loading', 'active', 'review', 'dashboard'
       currentQuizKey: null,
-      quizTitle: "",
+      currentQuizTitle: '',
       allQuestions: [],
       currentQuestions: [],
       currentQuestionIndex: 0,
-      userAnswers: {},
-      status: 'idle',
-      quizStartTime: null,
-      timeLeft: 0,
-      isTimerActive: false,
+      userAnswers: {}, // { questionIndex: [selectedOptionIndices] }
+      bookmarks: {}, // { quizKey: [questionIndices] }
       settings: {
-        timerDuration: 10,
-        questionCount: 'all',
-        customCount: 10,
         showExplanations: true,
         instantFeedback: false,
+        autoNext: false,
         shuffleQuestions: false,
         shuffleOptions: false,
+        timerDuration: 30,
+        questionCount: 'all',
+        customCount: 10,
       },
-      
-      setSettings: (newSettings) => set((state) => ({ 
-        settings: { ...state.settings, ...newSettings } 
-      })),
+      timeLeft: 0,
+      isTimerActive: false,
+      history: [],
 
-      setTimerDuration: (minutes) => set((state) => {
-        const newMinutes = parseInt(minutes) || 1;
-        return {
-          timeLeft: newMinutes * 60,
-          settings: { ...state.settings, timerDuration: newMinutes }
-        };
-      }),
+      setSettings: (newSettings) => set((state) => ({ settings: { ...state.settings, ...newSettings } })),
+      setStatus: (status) => set({ status }),
+      setTimerDuration: (duration) => set((state) => ({ settings: { ...state.settings, timerDuration: duration } })),
 
-      processQuestions: (questions) => {
-        const { settings } = get();
-        let processed = [...questions];
-        
-        if (settings.shuffleQuestions) {
-          processed = shuffleArray(processed);
-        }
-
-        let limit = processed.length;
-        if (settings.questionCount !== 'all') {
-          limit = settings.questionCount === 'custom' ? settings.customCount : parseInt(settings.questionCount);
-        }
-        processed = processed.slice(0, limit);
-
-        if (settings.shuffleOptions) {
-          processed = processed.map(q => {
-            // Create an array of indices [0, 1, 2, ...]
-            const indices = q.options.map((_, i) => i);
-            const shuffledIndices = shuffleArray([...indices]);
-            
-            // Map options to new positions
-            const newOptions = shuffledIndices.map(i => q.options[i]);
-            
-            // Map correct indices to new positions
-            const newCorrect = q.correct
-              .map(oldIdx => shuffledIndices.indexOf(oldIdx))
-              .filter(newIdx => newIdx !== -1)
-              .sort((a, b) => a - b);
-
-            return { ...q, options: newOptions, correct: newCorrect, originalIndices: shuffledIndices };
-          });
-        }
-
-        return processed;
-      },
-
-      loadQuiz: async (url, key, title) => {
+      loadQuiz: async (file, key, title) => {
         set({ status: 'loading' });
         try {
-          const res = await fetch(url);
-          if (!res.ok) throw new Error("Failed to fetch");
+          const res = await fetch(`https://habiboullah0.github.io/QCMsFile/${file}`);
           const data = await res.json();
-          
-          const questionsToUse = get().processQuestions(data);
-          
-          set({
-            currentQuizKey: key,
-            quizTitle: title,
-            allQuestions: data,
-            currentQuestions: questionsToUse,
-            status: 'active',
-            currentQuestionIndex: 0,
-            userAnswers: {},
-            quizStartTime: Date.now(),
-            timeLeft: get().settings.timerDuration * 60,
-            isTimerActive: false
-          });
-        } catch (error) {
-          console.error("Error loading quiz:", error);
+          get().initQuiz(data, key, title);
+        } catch (err) {
+          console.error(err);
           set({ status: 'idle' });
-          alert("Erreur lors du chargement du QCM.");
         }
       },
 
       loadLocalQuiz: (data, title) => {
-        const questionsToUse = get().processQuestions(data);
+        get().initQuiz(data, 'local_' + Date.now(), title);
+      },
+
+      initQuiz: (data, key, title) => {
+        const { settings } = get();
+        let questions = [...data];
+        if (settings.shuffleQuestions) {
+          questions.sort(() => Math.random() - 0.5);
+        }
+        let count = questions.length;
+        if (settings.questionCount !== 'all') {
+          count = settings.questionCount === 'custom' ? settings.customCount : parseInt(settings.questionCount);
+        }
+        questions = questions.slice(0, count);
+
+        if (settings.shuffleOptions) {
+          questions = questions.map(q => {
+            const optionsWithIndex = q.options.map((opt, i) => ({ text: opt, isCorrect: q.correct.includes(i) }));
+            optionsWithIndex.sort(() => Math.random() - 0.5);
+            return {
+              ...q,
+              options: optionsWithIndex.map(o => o.text),
+              correct: optionsWithIndex.map((o, i) => o.isCorrect ? i : -1).filter(i => i !== -1)
+            };
+          });
+        }
+
         set({
-          currentQuizKey: 'local-' + Date.now(),
-          quizTitle: title || "Quiz Local",
           allQuestions: data,
-          currentQuestions: questionsToUse,
-          status: 'active',
+          currentQuestions: questions,
+          currentQuizKey: key,
+          currentQuizTitle: title,
           currentQuestionIndex: 0,
           userAnswers: {},
-          quizStartTime: Date.now(),
-          timeLeft: get().settings.timerDuration * 60,
-          isTimerActive: false
+          status: 'active',
+          timeLeft: settings.timerDuration * 60,
+          isTimerActive: true,
         });
       },
 
       selectAnswer: (qIndex, optIndex) => {
-        const { userAnswers, status } = get();
-        if (status === 'review') return;
-        const currentAnswers = userAnswers[qIndex] || [];
-        const isSelected = currentAnswers.includes(optIndex);
-        let newAnswers;
-        if (isSelected) {
-          newAnswers = currentAnswers.filter(i => i !== optIndex);
+        const { currentQuestions, userAnswers, settings } = get();
+        const q = currentQuestions[qIndex];
+        const currentSelected = userAnswers[qIndex] || [];
+        let newSelected;
+
+        if (currentSelected.includes(optIndex)) {
+          newSelected = currentSelected.filter(i => i !== optIndex);
         } else {
-          newAnswers = [...currentAnswers, optIndex];
+          newSelected = [...currentSelected, optIndex];
         }
-        const updatedUserAnswers = { ...userAnswers };
-        if (newAnswers.length === 0) {
-          delete updatedUserAnswers[qIndex];
-        } else {
-          updatedUserAnswers[qIndex] = newAnswers;
+
+        set({ userAnswers: { ...userAnswers, [qIndex]: newSelected } });
+
+        if (settings.autoNext && q.correct.length === 1 && newSelected.length === 1) {
+          setTimeout(() => {
+            get().nextQuestion();
+          }, 300);
         }
-        set({ userAnswers: updatedUserAnswers });
+      },
+
+      clearAnswer: (qIndex) => {
+        const { userAnswers } = get();
+        const newAnswers = { ...userAnswers };
+        delete newAnswers[qIndex];
+        set({ userAnswers: newAnswers });
       },
 
       nextQuestion: () => {
@@ -151,55 +125,106 @@ export const useQuizStore = create(
         }
       },
 
-      submitQuiz: () => {
-        set({ status: 'review', isTimerActive: false });
+      goToQuestion: (index) => {
+        set({ currentQuestionIndex: index });
       },
 
-      resetQuiz: () => {
-        const { allQuestions, settings } = get();
-        if (allQuestions.length === 0) { set({ status: 'idle' }); return; }
-        
-        const questionsToUse = get().processQuestions(allQuestions);
-        
-        set({
-          currentQuestions: questionsToUse,
-          currentQuestionIndex: 0,
-          userAnswers: {},
-          status: 'active',
-          quizStartTime: Date.now(),
-          timeLeft: settings.timerDuration * 60,
-          isTimerActive: false
-        });
+      toggleBookmark: (qIndex) => {
+        const { bookmarks, currentQuizKey } = get();
+        const quizBookmarks = bookmarks[currentQuizKey] || [];
+        let newBookmarks;
+        if (quizBookmarks.includes(qIndex)) {
+          newBookmarks = quizBookmarks.filter(i => i !== qIndex);
+        } else {
+          newBookmarks = [...quizBookmarks, qIndex];
+        }
+        set({ bookmarks: { ...bookmarks, [currentQuizKey]: newBookmarks } });
       },
 
       toggleTimer: () => set((state) => ({ isTimerActive: !state.isTimerActive })),
-      
+
       tickTimer: () => {
-        const { timeLeft, status } = get();
-        if (status !== 'active') return;
-        
-        if (timeLeft <= 0) { 
-          set({ isTimerActive: false });
-          get().submitQuiz();
-        } else { 
-          set({ timeLeft: timeLeft - 1 }); 
+        const { timeLeft, submitQuiz } = get();
+        if (timeLeft <= 1) {
+          submitQuiz();
+        } else {
+          set({ timeLeft: timeLeft - 1 });
         }
       },
+
+      submitQuiz: () => {
+        const { currentQuestions, userAnswers, settings, timeLeft, currentQuizKey, currentQuizTitle, history } = get();
+
+        let totalScore = 0;
+        let maxPossibleScore = 0;
+
+        currentQuestions.forEach((q, idx) => {
+          const P = q.point || 1; // Default to 1 point if not specified
+          maxPossibleScore += P;
+
+          const selected = userAnswers[idx] || [];
+          const correct = new Set(q.correct);
+          const C = correct.size;
+          const I = q.options.length - C;
+
+          let correctSelections = 0;
+          let incorrectSelections = 0;
+
+          selected.forEach(s => {
+            if (correct.has(s)) correctSelections++;
+            else incorrectSelections++;
+          });
+
+          if (C > 0) {
+            const pointPerCorrect = P / C;
+            const pointPerIncorrect = I > 0 ? P / I : 0;
+
+            // Calculate score: positive for correct, negative for incorrect
+            let qScore = (correctSelections * pointPerCorrect) - (incorrectSelections * pointPerIncorrect);
+
+            // Reset to 0 if negative
+            totalScore += Math.max(0, qScore);
+          }
+        });
+
+        // Scale to 20
+        const scoreOn20 = maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 20 : 0;
+        const percentage = maxPossibleScore > 0 ? Math.round((totalScore / maxPossibleScore) * 100) : 0;
+
+        const newHistoryItem = {
+          id: Date.now(),
+          quizKey: currentQuizKey,
+          title: currentQuizTitle,
+          date: new Date().toISOString(),
+          score: totalScore,
+          maxScore: maxPossibleScore,
+          scoreOn20: scoreOn20,
+          percentage,
+          total: currentQuestions.length,
+          timeTaken: (settings.timerDuration * 60) - timeLeft
+        };
+
+        set({
+          status: 'review',
+          isTimerActive: false,
+          history: [newHistoryItem, ...history]
+        });
+      },
+
+      resetQuiz: () => {
+        const { allQuestions, currentQuizKey, currentQuizTitle } = get();
+        get().initQuiz(allQuestions, currentQuizKey, currentQuizTitle);
+      },
+
+      clearHistory: () => set({ history: [] })
     }),
     {
-      name: 'quiz-storage',
-      storage: createJSONStorage(() => localStorage),
+      name: 'qcm-storage',
       partialize: (state) => ({
-        currentQuizKey: state.currentQuizKey,
-        quizTitle: state.quizTitle,
-        allQuestions: state.allQuestions, 
-        currentQuestions: state.currentQuestions,
-        userAnswers: state.userAnswers,
-        currentQuestionIndex: state.currentQuestionIndex,
-        status: state.status,
+        history: state.history,
         settings: state.settings,
-        timeLeft: state.timeLeft,
-      }),
+        bookmarks: state.bookmarks
+      })
     }
   )
 );
