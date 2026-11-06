@@ -1,23 +1,3 @@
-'use client';
-import { useQuizStore } from '@/lib/store';
-
-export default function ProgressBar() {
-  const { currentQuestions, userAnswers } = useQuizStore();
-  
-  if (!currentQuestions.length) return null;
-
-  const total = currentQuestions.length;
-  const answered = Object.keys(userAnswers).length;
-  const percentage = Math.round((answered / total) * 100);
-
-  return (
-    <div className="progress-container">
-      <div 
-        className="progress-fill"
-        style={{ width: `${percentage}%` }}
-      >
-        <div className="progress-stripes" />
-      </div>
-    </div>
-  );
-}
+"use client";
+import { useQuizStore } from "@/lib/store";
+export default function ProgressBar(){const{currentQuestions,userAnswers,currentQuestionIndex}=useQuizStore();if(!currentQuestions.length)return null;const answered=Object.values(userAnswers).filter(Boolean).filter(value=>value.length).length;return <div className="progress-wrap"><div className="progress-meta"><span>Question {currentQuestionIndex+1} sur {currentQuestions.length}</span><span>{answered} répondues · {Math.round(answered/currentQuestions.length*100)}%</span></div><div className="progress-track" role="progressbar" aria-valuenow={answered} aria-valuemin="0" aria-valuemax={currentQuestions.length}><div className="progress-fill" style={{width:`${answered/currentQuestions.length*100}%`}}/></div></div>}

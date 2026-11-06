@@ -1,231 +1,43 @@
 "use client";
+
+import { Award, Clock, Flame, History, Medal, Trash2, TrendingUp } from "lucide-react";
 import { useQuizStore } from "@/lib/store";
-import {
-  History,
-  TrendingUp,
-  Award,
-  Clock,
-  Trash2,
-  Play,
-} from "lucide-react";
 import { formatTime } from "@/lib/utils";
+
+function studyStreak(history) {
+  const days = new Set(history.map((item) => new Date(item.date).toISOString().slice(0, 10)));
+  let streak = 0;
+  const cursor = new Date();
+  while (days.has(cursor.toISOString().slice(0, 10))) {
+    streak += 1;
+    cursor.setUTCDate(cursor.getUTCDate() - 1);
+  }
+  return streak;
+}
 
 export default function Dashboard() {
   const { history, clearHistory, setStatus } = useQuizStore();
+  if (!history.length) return <div className="card hero"><span className="eyebrow">Votre progression</span><h2>Chaque session compte.</h2><p>Terminez votre premier QCM pour voir apparaître vos scores, votre temps d’étude et vos progrès ici.</p></div>;
 
-  if (history.length === 0) {
-    return (
-      <div
-        className="card animate-fade-in flex-center"
-        style={{
-          height: "400px",
-          flexDirection: "column",
-          textAlign: "center",
-        }}
-      >
-        <TrendingUp
-          size={64}
-          color="var(--text-muted)"
-          style={{ marginBottom: "1.5rem", opacity: 0.2 }}
-        />
-        <h2
-          style={{
-            fontSize: "1.5rem",
-            fontWeight: 700,
-            marginBottom: "0.5rem",
-          }}
-        >
-          Votre Tableau de Bord
-        </h2>
-        <p style={{ color: "var(--text-muted)", maxWidth: "400px" }}>
-          Vous n'avez pas encore de statistiques. Commencez un qcm pour voir vos
-          progrès ici !
-        </p>
-      </div>
-    );
-  }
+  const average = (history.reduce((sum, item) => sum + (item.scoreOn20 ?? item.percentage / 5), 0) / history.length).toFixed(1);
+  const best = Math.max(...history.map((item) => item.scoreOn20 ?? item.percentage / 5)).toFixed(1);
+  const totalTime = history.reduce((sum, item) => sum + item.timeTaken, 0);
+  const streak = studyStreak(history);
+  const latest = history[0];
 
-  const avgScoreOn20 = (
-    history.reduce((acc, curr) => acc + (curr.scoreOn20 || (curr.percentage / 100 * 20)), 0) / history.length
-  ).toFixed(2);
-
-  const totalTime = history.reduce((acc, curr) => acc + curr.timeTaken, 0);
-
-  return (
-    <div className="animate-fade-in">
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "1rem",
-          marginBottom: "2rem",
-        }}
-      >
-        <StatCard
-          icon={Award}
-          label="Moyenne (sur 20)"
-          value={`${avgScoreOn20}`}
-          color="#8b5cf6"
-        />
-        <StatCard
-          icon={TrendingUp}
-          label="Quiz Terminés"
-          value={history.length}
-          color="#10b981"
-        />
-        <StatCard
-          icon={Clock}
-          label="Temps Total"
-          value={formatTime(totalTime)}
-          color="#3b82f6"
-        />
-      </div>
-
-      <div className="card">
-        <div className="flex-between" style={{ marginBottom: "1.5rem" }}>
-          <h3
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              fontSize: "1.25rem",
-              fontWeight: 700,
-            }}
-          >
-            <History size={20} color="var(--primary)" />
-            Historique Récent
-          </h3>
-          <button
-            onClick={() =>
-              confirm("Effacer tout l'historique ?") && clearHistory()
-            }
-            className="btn btn-outline"
-            style={{
-              padding: "0.4rem 0.8rem",
-              fontSize: "0.8rem",
-              color: "var(--error)",
-            }}
-          >
-            <Trash2 size={14} /> Effacer
-          </button>
-        </div>
-
-        <div
-          style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
-        >
-          {history.map((item) => {
-            const score20 = item.scoreOn20 || (item.percentage / 100 * 20);
-            return (
-              <div
-                key={item.id}
-                className="history-item"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "1rem",
-                  borderRadius: "12px",
-                  border: "1px solid var(--card-border)",
-                  backgroundColor: "var(--bg-color)",
-                }}
-              >
-                <div style={{ flex: 1 }}>
-                  <div
-                    style={{
-                      fontWeight: 700,
-                      fontSize: "1rem",
-                      marginBottom: "0.25rem",
-                    }}
-                  >
-                    {item.title}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.8rem",
-                      color: "var(--text-muted)",
-                      display: "flex",
-                      gap: "1rem",
-                    }}
-                  >
-                    <span>{new Date(item.date).toLocaleDateString()}</span>
-                    <span>{formatTime(item.timeTaken)}</span>
-                  </div>
-                </div>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}
-                >
-                  <div style={{ textAlign: "right" }}>
-                    <div
-                      style={{
-                        fontWeight: 800,
-                        fontSize: "1.1rem",
-                        color:
-                          score20 >= 16
-                            ? "var(--success)"
-                            : score20 >= 10
-                              ? "var(--warning)"
-                              : "var(--error)",
-                      }}
-                    >
-                      {score20.toFixed(2)} / 20
-                    </div>
-                    <div
-                      style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}
-                    >
-                      {item.percentage}% de précision
-                    </div>
-                  </div>
-                  <button
-                    className="btn btn-primary"
-                    style={{ padding: "0.5rem", borderRadius: "50%" }}
-                    onClick={() => setStatus("idle")}
-                  >
-                    <Play size={16} fill="white" />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+  return <div style={{ display: "grid", gap: "1rem" }}>
+    <div className="card" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap", background: "linear-gradient(135deg, var(--brand-soft), var(--panel))" }}>
+      <div><span className="eyebrow">Votre rythme</span><h2 style={{ margin: ".3rem 0", font: "800 1.55rem var(--font-display)" }}>{streak ? `${streak} jour${streak > 1 ? "s" : ""} de suite` : "Reprenez votre rythme"}</h2><p className="muted" style={{ margin: 0 }}>Une courte session régulière vaut mieux qu’une longue session isolée.</p></div><Flame size={42} color="var(--warning)" strokeWidth={1.6}/>
     </div>
-  );
-}
-
-function StatCard({ icon: Icon, label, value, color }) {
-  return (
-    <div
-      className="card"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "1rem",
-        padding: "1.25rem",
-      }}
-    >
-      <div
-        style={{
-          padding: "0.75rem",
-          borderRadius: "12px",
-          backgroundColor: `${color}15`,
-          color: color,
-        }}
-      >
-        <Icon size={24} />
-      </div>
-      <div>
-        <div
-          style={{
-            fontSize: "0.85rem",
-            fontWeight: 600,
-            color: "var(--text-muted)",
-            textTransform: "uppercase",
-          }}
-        >
-          {label}
-        </div>
-        <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>{value}</div>
-      </div>
+    <div className="stats-grid">
+      <div className="stat-box"><Award color="var(--brand)"/><div className="muted">Moyenne /20</div><div className="stat-value">{average}</div></div>
+      <div className="stat-box"><Medal color="var(--warning)"/><div className="muted">Meilleur score</div><div className="stat-value">{best}</div></div>
+      <div className="stat-box"><Clock color="var(--brand)"/><div className="muted">Temps total</div><div className="stat-value">{formatTime(totalTime)}</div></div>
+      <div className="stat-box"><TrendingUp color="var(--success)"/><div className="muted">Sessions</div><div className="stat-value">{history.length}</div></div>
     </div>
-  );
+    <div className="card"><div className="card-title"><span style={{ display: "flex", alignItems: "center", gap: ".45rem" }}><History size={18}/> Historique récent</span><button className="btn btn-danger" onClick={clearHistory}><Trash2 size={16}/> Effacer</button></div>
+      <div className="card" style={{ marginBottom: "1rem", boxShadow: "none", background: "var(--canvas)" }}><div className="muted" style={{ fontSize: ".76rem", fontWeight: 800, textTransform: "uppercase" }}>Dernière session</div><div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", marginTop: ".3rem" }}><strong>{latest.title}</strong><strong style={{ color: latest.percentage >= 80 ? "var(--success)" : latest.percentage >= 50 ? "var(--warning)" : "var(--danger)" }}>{latest.scoreOn20.toFixed(1)} / 20</strong></div><button className="btn btn-outline" style={{ marginTop: ".7rem" }} onClick={() => setStatus("idle")}>Choisir un nouveau module</button></div>
+      {history.slice(0, 8).map((item) => <div key={item.id} style={{ display: "flex", justifyContent: "space-between", gap: "1rem", padding: ".8rem 0", borderBottom: "1px solid var(--line)" }}><div><strong>{item.title}</strong><div className="muted" style={{ fontSize: ".78rem" }}>{new Date(item.date).toLocaleDateString("fr-FR")} · {formatTime(item.timeTaken)}</div></div><strong style={{ color: item.percentage >= 80 ? "var(--success)" : item.percentage >= 50 ? "var(--warning)" : "var(--danger)" }}>{item.scoreOn20.toFixed(1)} / 20</strong></div>)}
+    </div>
+  </div>;
 }

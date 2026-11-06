@@ -1,0 +1,74 @@
+[
+  {
+    "type": "multiple_choice",
+    "point": 2,
+    "question": "Quelle planète est connue sous le nom de Planète Rouge ?",
+    "options": [
+      "La Terre",
+      "Mars",
+      "Jupiter",
+      "Vénus"
+    ],
+    "correct": [
+      1
+    ],
+    "hint": "Elle porte le nom du dieu romain de la guerre.",
+    "explanation": "Mars est souvent appelée la « Planète Rouge » en raison de son apparence rougeâtre due à l'oxyde de fer à sa surface.",
+    "media": null
+  },
+  {
+    "type": "multiple_choice",
+    "point": 3,
+    "question": "Parmi les symptômes suivants, lesquels sont typiquement associés à la grippe ?",
+    "options": [
+      "Fièvre soudaine",
+      "Perte de cheveux",
+      "Fatigue extrême",
+      "Douleurs musculaires",
+      "Éruption cutanée"
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "hint": "Il y a 3 bonnes réponses.",
+    "explanation": "La grippe se caractérise par une apparition brutale de fièvre, des myalgies (douleurs musculaires) et une asthénie (fatigue extrême). La perte de cheveux et les éruptions cutanées ne sont pas des symptômes typiques.",
+    "media": null
+  },
+  {
+    "type": "multiple_choice",
+    "point": 1,
+    "question": "L'eau bout à 100 degrés Celsius au niveau de la mer.",
+    "options": [
+      "Vrai",
+      "Faux"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Au niveau de la mer (pression atmosphérique standard), la température d'ébullition de l'eau est exactement de 100°C.",
+    "media": null
+  },
+  {
+    "type": "multiple_choice",
+    "point": 4,
+    "question": "Quels organes font partie du système digestif ?",
+    "options": [
+      "L'estomac",
+      "Le cœur",
+      "Le foie",
+      "Les poumons",
+      "L'intestin grêle",
+      "Le pancréas"
+    ],
+    "correct": [
+      0,
+      2,
+      4,
+      5
+    ],
+    "explanation": "L'estomac, le foie, l'intestin grêle et le pancréas jouent tous un rôle dans la digestion. Le cœur fait partie du système cardiovasculaire et les poumons du système respiratoire.",
+    "media": null
+  }
+]

@@ -1,250 +1,67 @@
-'use client';
-import { useQuizStore } from '@/lib/store';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from 'chart.js';
-import { Doughnut, Line } from 'react-chartjs-2';
-import Confetti from 'react-confetti';
-import { useWindowSize } from 'react-use';
-import { formatTime } from '@/lib/utils';
-import { Trophy, Target, Clock, AlertCircle, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+"use client";
 
-ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title);
+import { motion } from "motion/react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
+import { Doughnut, Line } from "react-chartjs-2";
+import { CheckCircle2, Clock, Filter, Flag, RotateCcw, Target, XCircle } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useQuizStore } from "@/lib/store";
+import { formatTime, scoreQuestion } from "@/lib/utils";
+
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
+
+const palette = { brand: "#4f63d8", success: "#188a68", warning: "#b97708", danger: "#c44955", muted: "#718096" };
 
 export default function QuizResults() {
-  const { currentQuestions, userAnswers, settings, timeLeft, history, currentQuizKey } = useQuizStore();
-  const { width, height } = useWindowSize();
-
-  let totalScore = 0;
-  let maxPossibleScore = 0;
-  let correctCount = 0;
-  let partialCount = 0;
-  let incorrectCount = 0;
-
-  currentQuestions.forEach((q, idx) => {
-    const P = q.point || 1;
-    maxPossibleScore += P;
-
-    const selected = userAnswers[idx] || [];
-    const correct = new Set(q.correct);
-    const C = correct.size;
-    const I = q.options.length - C;
-
-    let correctSelections = 0;
-    let incorrectSelections = 0;
-
-    selected.forEach(s => {
-      if (correct.has(s)) correctSelections++;
-      else incorrectSelections++;
-    });
-
-    let qScore = 0;
-    if (C > 0) {
-      const pointPerCorrect = P / C;
-      const pointPerIncorrect = I > 0 ? P / I : 0;
-      qScore = (correctSelections * pointPerCorrect) - (incorrectSelections * pointPerIncorrect);
-      qScore = Math.max(0, qScore);
-    }
-
-    totalScore += qScore;
-
-    // For stats breakdown
-    if (qScore === P) correctCount++;
-    else if (qScore > 0) partialCount++;
-    else incorrectCount++;
+  const { currentQuestions, userAnswers, settings, timeLeft, history, currentQuizKey, bookmarks, retryMistakes } = useQuizStore();
+  const [filter, setFilter] = useState("all");
+  const flagged = new Set(bookmarks[currentQuizKey] || []);
+  const rows = currentQuestions.map((question, index) => ({
+    index,
+    question,
+    result: scoreQuestion(question, userAnswers[index] || []),
+    isFlagged: flagged.has(index),
+  }));
+  const max = rows.reduce((sum, row) => sum + row.result.point, 0);
+  const total = rows.reduce((sum, row) => sum + row.result.score, 0);
+  const percentage = max ? Math.round((total / max) * 100) : 0;
+  const score20 = max ? (total / max) * 20 : 0;
+  const perfect = rows.filter((row) => row.result.correct).length;
+  const partial = rows.filter((row) => row.result.partial).length;
+  const wrong = rows.filter((row) => row.result.missed).length;
+  const mistakes = partial + wrong;
+  const filteredRows = rows.filter((row) => {
+    if (filter === "wrong") return row.result.partial || row.result.missed;
+    if (filter === "flagged") return row.isFlagged;
+    return true;
   });
+  const attempts = history.filter((item) => item.quizKey === currentQuizKey).slice().reverse().slice(-8);
+  const data = { labels: ["Parfaites", "Partielles", "À revoir"], datasets: [{ data: [perfect, partial, wrong], backgroundColor: [palette.success, palette.warning, palette.danger], borderWidth: 0 }] };
+  const line = { labels: attempts.map((_, index) => `#${index + 1}`), datasets: [{ label: "Score /20", data: attempts.map((item) => item.scoreOn20), borderColor: palette.brand, backgroundColor: "rgba(79,99,216,.12)", fill: true, tension: .35 }] };
 
-  const scoreOn20 = maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 20 : 0;
-  const percentage = maxPossibleScore > 0 ? Math.round((totalScore / maxPossibleScore) * 100) : 0;
-  const timeTaken = (settings.timerDuration * 60) - timeLeft;
-
-  // Comparison with previous attempt of the same quiz
-  const previousAttempts = history.filter(h => h.quizKey === currentQuizKey && h.id !== history[0]?.id);
-  const lastAttempt = previousAttempts[0];
-
-  let trend = null;
-  if (lastAttempt) {
-    const diff = (scoreOn20 - (lastAttempt.scoreOn20 || (lastAttempt.percentage / 100 * 20))).toFixed(2);
-    if (diff > 0) trend = { icon: TrendingUp, color: 'var(--success)', text: `+${diff} pts par rapport à la dernière fois` };
-    else if (diff < 0) trend = { icon: TrendingDown, color: 'var(--error)', text: `${diff} pts par rapport à la dernière fois` };
-    else trend = { icon: Minus, color: 'var(--text-muted)', text: "Même score que la dernière fois" };
-  }
-
-  const doughnutData = {
-    labels: ['Parfait', 'Partiel', 'Zéro/Incorrect'],
-    datasets: [{
-      data: [correctCount, partialCount, incorrectCount],
-      backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
-      hoverOffset: 4,
-      borderWidth: 0,
-    }],
-  };
-
-  // Progress chart data
-  const quizHistory = history
-    .filter(h => h.quizKey === currentQuizKey)
-    .reverse()
-    .slice(-10);
-
-  const lineData = {
-    labels: quizHistory.map((_, i) => `Tentative ${i + 1}`),
-    datasets: [{
-      label: 'Score / 20',
-      data: quizHistory.map(h => h.scoreOn20 || (h.percentage / 100 * 20)),
-      borderColor: 'var(--primary)',
-      backgroundColor: 'rgba(var(--primary-rgb), 0.1)',
-      tension: 0.4,
-      fill: true,
-    }],
-  };
-
-  let message = "Peut mieux faire 😢";
-  let resultClass = "error";
-  let Icon = AlertCircle;
-
-  if (scoreOn20 >= 16) {
-    message = "Excellent travail ! 🏆";
-    resultClass = "success";
-    Icon = Trophy;
-  } else if (scoreOn20 >= 10) {
-    message = "Pas mal ! 👍";
-    resultClass = "warning";
-    Icon = Target;
-  }
-
-  return (
-    <div className="animate-fade-in">
-      {scoreOn20 >= 16 && <Confetti width={width} height={height} recycle={false} numberOfPieces={200} />}
-
-      <div className={`result-card ${resultClass}`} style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '1rem',
-        padding: '3rem 2rem',
-        borderRadius: '24px',
-        marginBottom: '2rem',
-        textAlign: 'center',
-        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)'
-      }}>
-        <div className="hover-scale" style={{
-          width: 100,
-          height: 100,
-          borderRadius: '50%',
-          backgroundColor: 'rgba(255,255,255,0.2)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: '0.5rem'
-        }}>
-          <Icon size={56} />
-        </div>
-        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, margin: 0 }}>{message}</h2>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginTop: '1rem' }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '0.8rem', opacity: 0.8, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>Note Finale</div>
-            <div style={{ fontSize: '2.5rem', fontWeight: 800 }}>{scoreOn20.toFixed(2)} <span style={{ fontSize: '1.5rem', opacity: 0.8 }}>/ 20</span></div>
-          </div>
-          <div style={{ width: '2px', height: '40px', backgroundColor: 'currentColor', opacity: 0.2 }} />
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '0.8rem', opacity: 0.8, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>Points Bruts</div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>{totalScore.toFixed(1)} / {maxPossibleScore}</div>
-          </div>
-        </div>
-
-        {trend && (
-          <div style={{
-            marginTop: '1.5rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.6rem 1.2rem',
-            backgroundColor: 'rgba(255,255,255,0.15)',
-            borderRadius: '99px',
-            fontSize: '0.9rem',
-            fontWeight: 600
-          }}>
-            <trend.icon size={18} />
-            {trend.text}
-          </div>
-        )}
-      </div>
-
-      <div className="results-layout">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div className="stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
-            <StatBox label="Parfaites" value={correctCount} color="#10b981" bg="rgba(16, 185, 129, 0.1)" />
-            <StatBox label="Partielles" value={partialCount} color="#f59e0b" bg="rgba(245, 158, 11, 0.1)" />
-            <StatBox label="Zéro/Faux" value={incorrectCount} color="#ef4444" bg="rgba(239, 68, 68, 0.1)" />
-            <StatBox label="Temps" value={formatTime(timeTaken)} color="var(--primary)" bg="var(--primary-light)" icon={Clock} />
-          </div>
-
-          {quizHistory.length > 1 && (
-            <div className="card" style={{ padding: '1.5rem' }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <TrendingUp size={18} color="var(--primary)" /> Progression (sur 20)
-              </h4>
-              <div style={{ height: '180px' }}>
-                <Line
-                  data={lineData}
-                  options={{
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { min: 0, max: 20, ticks: { stepSize: 5 } } }
-                  }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="card flex-center" style={{ height: '100%', padding: '2rem', minHeight: '350px' }}>
-          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <Doughnut
-              data={doughnutData}
-              options={{
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    position: 'bottom',
-                    labels: { usePointStyle: true, padding: 25, font: { family: 'Poppins', size: 13, weight: 600 } }
-                  }
-                },
-                cutout: '75%'
-              }}
-            />
-            <div style={{
-              position: 'absolute',
-              top: '42%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)' }}>{percentage}%</div>
-              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Précision</div>
-            </div>
-          </div>
-        </div>
-      </div>
+  return <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: "grid", gap: "1rem" }}>
+    <div className="result-hero">
+      <div><span className="eyebrow" style={{ color: "#fff" }}>Session terminée</span><h2 style={{ margin: ".35rem 0", font: "800 2rem var(--font-display)" }}>Votre score : {score20.toFixed(1)} / 20</h2><p style={{ margin: 0, opacity: .88 }}>{percentage >= 80 ? "Excellent travail." : percentage >= 50 ? "Bonne base, continuez vos révisions." : "Chaque erreur est une piste de progrès."}</p></div>
+      <div className="score-ring" style={{ "--score": `${percentage}%` }}><strong>{percentage}%</strong></div>
     </div>
-  );
-}
-
-function StatBox({ label, value, color, bg, icon: Icon }) {
-  return (
-    <div className="stat-box hover-scale" style={{
-      padding: '1.5rem 1rem',
-      borderRadius: '16px',
-      backgroundColor: bg,
-      border: `1px solid ${color}20`,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '0.25rem'
-    }}>
-      {Icon && <Icon size={18} color={color} style={{ marginBottom: '0.25rem' }} />}
-      <div style={{ fontSize: '1.75rem', fontWeight: 800, color: color }}>{value}</div>
-      <div style={{ fontSize: '0.75rem', fontWeight: 700, color: color, opacity: 0.8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+    <div className="stats-grid">
+      <div className="stat-box"><CheckCircle2 color="var(--success)"/><div className="muted">Parfaites</div><div className="stat-value">{perfect}</div></div>
+      <div className="stat-box"><Target color="var(--warning)"/><div className="muted">Partielles</div><div className="stat-value">{partial}</div></div>
+      <div className="stat-box"><XCircle color="var(--danger)"/><div className="muted">À revoir</div><div className="stat-value">{wrong}</div></div>
+      <div className="stat-box"><Clock color="var(--brand)"/><div className="muted">Temps</div><div className="stat-value">{formatTime(settings.timerDuration * 60 - timeLeft)}</div></div>
     </div>
-  );
+    <div className="card" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
+      <div><strong>Réviser efficacement</strong><div className="muted" style={{ fontSize: ".82rem" }}>{mistakes ? `${mistakes} question${mistakes > 1 ? "s" : ""} à retravailler${flagged.size ? ` · ${flagged.size} marquée${flagged.size > 1 ? "s" : ""}` : ""}.` : "Toutes vos réponses sont correctes."}</div></div>
+      <button className="btn btn-primary" onClick={retryMistakes} disabled={!mistakes && !flagged.size}><RotateCcw size={17}/> Refaire les erreurs</button>
+    </div>
+    <div className="results-grid">
+      <div className="card" style={{ minHeight: 300 }}><h3 className="card-title">Répartition</h3><div style={{ height: 220 }}><Doughnut data={data} options={{ maintainAspectRatio: false, plugins: { legend: { position: "bottom", labels: { usePointStyle: true, color: palette.muted } } }, cutout: "72%" }}/></div></div>
+      <div className="card" style={{ minHeight: 300 }}><h3 className="card-title">Progression</h3>{attempts.length > 1 ? <div style={{ height: 220 }}><Line data={line} options={{ maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 0, max: 20, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } }}/></div> : <p className="muted">Votre prochaine tentative apparaîtra ici.</p>}</div>
+    </div>
+    <div className="card">
+      <div className="card-title"><span style={{ display: "flex", alignItems: "center", gap: ".45rem" }}><Filter size={17}/> Détail par question</span><span className="muted" style={{ fontSize: ".78rem" }}>Crédit partiel activé</span></div>
+      <div className="action-group" style={{ marginBottom: "1rem", flexWrap: "wrap" }}><button className={`btn ${filter === "all" ? "btn-primary" : "btn-outline"}`} onClick={() => setFilter("all")}>Toutes ({rows.length})</button><button className={`btn ${filter === "wrong" ? "btn-primary" : "btn-outline"}`} onClick={() => setFilter("wrong")}>À revoir ({mistakes})</button><button className={`btn ${filter === "flagged" ? "btn-primary" : "btn-outline"}`} onClick={() => setFilter("flagged")}><Flag size={15}/> Marquées ({flagged.size})</button></div>
+      {filteredRows.length ? filteredRows.map((row) => <div key={row.index} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: ".7rem", padding: ".7rem 0", borderBottom: "1px solid var(--line)" }}><span><strong>Question {row.index + 1}</strong><span className="muted"> · {row.result.correct ? "Correcte" : row.result.partial ? "Partielle" : "À revoir"}{row.isFlagged ? " · marquée" : ""}</span></span><strong style={{ color: row.result.correct ? "var(--success)" : row.result.partial ? "var(--warning)" : "var(--danger)" }}>{row.result.score.toFixed(1)} / {row.result.point}</strong></div>) : <p className="muted">Aucune question dans ce filtre.</p>}
+    </div>
+  </motion.div>;
 }

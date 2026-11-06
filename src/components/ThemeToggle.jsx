@@ -1,28 +1,38 @@
-'use client';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
-import { Sun, Moon } from 'lucide-react';
+"use client";
+
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useSyncExternalStore } from "react";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
-  useEffect(() => setMounted(true), []);
+  if (!mounted) {
+    return (
+      <span
+        className="btn btn-outline theme-toggle-skeleton"
+        aria-hidden="true"
+        style={{ width: 44, height: 44, padding: 0 }}
+      />
+    );
+  }
 
-  if (!mounted) return <div style={{ width: 40, height: 40 }}></div>;
+  const isDark = resolvedTheme === "dark";
 
   return (
     <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="btn btn-secondary"
-      style={{ borderRadius: '50%', padding: '0.5rem' }}
-      aria-label="Changer de thème"
+      className="btn btn-outline"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? "Activer le thème clair" : "Activer le thème sombre"}
+      type="button"
     >
-      {theme === 'dark' ? (
-        <Sun size={24} color="#fbbf24" />
-      ) : (
-        <Moon size={24} color="#374151" />
-      )}
+      {isDark ? <Sun size={18} /> : <Moon size={18} />}
+      <span className="sr-only">Changer de thème</span>
     </button>
   );
 }
