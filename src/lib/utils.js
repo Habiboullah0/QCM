@@ -1,7 +1,51 @@
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-export function cn(...inputs) { return twMerge(clsx(inputs)); }
-export function shuffleArray(array) { const copy=[...array]; for(let i=copy.length-1;i>0;i-=1){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]];} return copy; }
-export function formatTime(seconds) { if(!Number.isFinite(seconds)||seconds<0)return "00:00"; return `${String(Math.floor(seconds/60)).padStart(2,"0")}:${String(Math.floor(seconds%60)).padStart(2,"0")}`; }
-export function isArabicText(value="") { return /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(value); }
-export function scoreQuestion(question, selected=[]) { const point=Number(question.point)||1; const correct=new Set(question.correct||[]); const incorrect=selected.filter(index=>!correct.has(index)).length; const right=selected.filter(index=>correct.has(index)).length; const raw=correct.size?(right/correct.size)-(incorrect/Math.max(1,question.options.length-correct.size)):0; const score=Math.max(0,Math.min(1,raw))*point; return {score,point,correct:score===point,partial:score>0&&score<point,missed:score===0,right,incorrect}; }
+export function scoreQuestion(question, selected = []) {
+  const totalPoints = Number(question.point) || 1;
+  const options = question.options || [];
+  const correctIndices = question.correct || [];
+
+  const numTotal = options.length;
+  const numCorrect = correctIndices.length || 1;
+  const numIncorrect = Math.max(1, numTotal - correctIndices.length);
+
+  // sum of correct = +totalPoints, sum of incorrect = -totalPoints
+  const correctOptionValue = totalPoints / numCorrect;
+  const incorrectOptionPenalty = totalPoints / numIncorrect;
+
+  let earned = 0;
+  let correctSelected = 0;
+  let incorrectSelected = 0;
+
+  selected.forEach((index) => {
+    if (correctIndices.includes(index)) {
+      earned += correctOptionValue;
+      correctSelected += 1;
+    } else {
+      earned -= incorrectOptionPenalty;
+      incorrectSelected += 1;
+    }
+  });
+
+  // Score floored at 0, capped at totalPoints
+  const finalScore = Math.max(0, Math.min(totalPoints, Math.round(earned * 1000) / 1000));
+  const isPerfect = correctSelected === correctIndices.length && incorrectSelected === 0;
+  const isMissed = finalScore === 0;
+  const isPartial = !isPerfect && !isMissed;
+
+  return {
+    point: totalPoints,
+    score: finalScore,
+    correct: isPerfect,
+    partial: isPartial,
+    missed: isMissed,
+  };
+}
+
+export function formatTime(seconds = 0) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}m ${secs < 10 ? "0" : ""}${secs}s`;
+}
+
+export function isArabicText(text = "") {
+  return /[\u0600-\u06FF]/.test(text);
+}
