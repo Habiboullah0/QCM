@@ -79,9 +79,6 @@ export default function QuestionCard() {
             <span className="pill">
               {formatPts(totalPoints)} point{totalPoints > 1 ? "s" : ""}
             </span>
-            <span className="pill">
-              {options.length} options ({numCorrect} juste{numCorrect > 1 ? "s" : ""}, {numIncorrect} fausse{numIncorrect > 1 ? "s" : ""})
-            </span>
             {multiple && <span className="pill pill-accent">Sélection multiple</span>}
 
             {/* Score earned in review */}
